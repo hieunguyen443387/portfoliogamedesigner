@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nguyễn Trung Hiếu — Game Design Portfolio</title>
     <meta name="description"
-        content="Portfolio của Nguyễn Trung Hiếu - Intern Game Designer. Chuyên về Gameplay Loop, Level Design, và Game Feel.">
-    <!-- Tailwind CSS -->
+        content="Portfolio của Nguyễn Trung Hiếu — Game Designer: Escape/Jam Puzzle, Level Design, Game Feel và công cụ biên tập map trong Unity.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Fonts: Inter (body) + Be Vietnam Pro (headings - perfect Vietnamese diacritics) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <script>
         tailwind.config = {
@@ -23,36 +20,12 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0fdf9',
-                            100: '#ccfbef',
-                            200: '#99f6e0',
-                            300: '#5eead4',
-                            400: '#2dd4bf',
-                            500: '#14b8a6',
-                            600: '#0d9488',
-                            700: '#0f766e',
-                            900: '#134e4a',
-                            accent: '#06b6d4',
+                            50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
+                            400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e',
+                            900: '#134e4a'
                         },
-                        violet: {
-                            400: '#a78bfa',
-                            500: '#8b5cf6',
-                        },
-                        surface: {
-                            0: '#ffffff',
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                        },
-                        ink: {
-                            900: '#0f172a',
-                            700: '#1e293b',
-                            500: '#334155',
-                            400: '#475569',
-                            300: '#64748b',
-                            200: '#94a3b8',
-                        }
+                        surface: { 0: '#ffffff', 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0' },
+                        ink: { 900: '#0f172a', 700: '#1e293b', 600: '#334155', 500: '#475569', 400: '#64748b' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -63,1488 +36,1149 @@
         }
     </script>
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: #f8fafc;
-            color: #1e293b;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+        html { scroll-behavior: smooth; }
+        body { background: #f8fafc; color: #334155; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        ::selection { background: #ccfbf1; color: #134e4a; }
 
         .gradient-text {
-            background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 50%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-            padding-top: 0.05em;
-            padding-bottom: 0.1em;
+            background: linear-gradient(100deg, #0f766e 0%, #0d9488 45%, #14b8a6 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            display: inline-block; padding-bottom: .08em;
         }
 
-        .hero-bg {
-            background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20, 184, 166, 0.10) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 40% at 90% 20%, rgba(139, 92, 246, 0.07) 0%, transparent 60%),
-                #f8fafc;
+        /* Nav active state */
+        .nav-link { position: relative; color: #475569; font-weight: 500; font-size: 14px; transition: color .2s; }
+        .nav-link::after {
+            content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+            background: #0d9488; transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+        }
+        .nav-link:hover, .nav-link.active { color: #0d9488; }
+        .nav-link.active::after { transform: scaleX(1); }
+
+        /* Scroll reveal */
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+        .reveal.is-visible { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
         }
 
-        .card-hover {
-            transition: all 0.25s ease;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-        }
+        .preview-media img, .preview-media svg { transition: transform .6s cubic-bezier(.22,1,.36,1); }
+        .group:hover .preview-media img, .group:hover .preview-media svg { transform: scale(1.04); }
 
-        .card-hover:hover {
-            box-shadow: 0 8px 30px rgba(20, 184, 166, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
-            transform: translateY(-2px);
-        }
+        .hover-link { transition: color .2s, gap .2s; }
+        .hover-link:hover { color: #0d9488; gap: .55rem; }
 
-        .project-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
-        }
-
-        .project-card:hover {
-            border-color: #99f6e0;
-            box-shadow: 0 12px 40px rgba(20, 184, 166, 0.13), 0 2px 8px rgba(15, 23, 42, 0.07);
-        }
-
-        .skill-badge {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            color: #475569;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .skill-badge:hover {
-            background: #ccfbef;
-            border-color: #5eead4;
-            color: #0d9488;
-        }
-
-        .section-label {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #14b8a6;
-        }
-
-        .nav-link {
-            color: #475569;
-            font-weight: 500;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #14b8a6;
-        }
-
-        .stat-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #475569;
-        }
-
-        /* Animated ping dot */
-        @keyframes softPing {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(1.4);
-            }
-        }
-
-        .ping-dot {
-            animation: softPing 2s ease infinite;
-        }
-
-        /* Project tab indicator */
-        .project-num {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        /* Modal transition */
-        .modal-enter {
-            opacity: 0;
-        }
-
-        .modal-enter .modal-box {
-            transform: scale(0.94) translateY(16px);
-        }
-
-        .modal-ready {
-            opacity: 1;
-        }
-
-        .modal-ready .modal-box {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-box {
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        #video-modal {
-            transition: opacity 0.25s ease;
-        }
+        /* Modals */
+        .modal { transition: opacity .22s ease; }
+        .modal-box { transition: transform .3s cubic-bezier(.34,1.4,.64,1); }
+        .modal-hidden { opacity: 0; }
+        .modal-hidden .modal-box { transform: scale(.96) translateY(14px); }
+        .modal-open { opacity: 1; }
+        .modal-open .modal-box { transform: scale(1) translateY(0); }
     </style>
 </head>
 
-<body class="selection:bg-teal-100 selection:text-teal-800 antialiased">
+<body class="antialiased selection:bg-teal-100 selection:text-teal-900">
 
-    <!-- NAVIGATION -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-surface-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[68px] flex items-center justify-between">
-            <a href="#" class="flex items-center space-x-2.5 group">
-                <div
-                    class="w-9 h-9 rounded-xl border border-brand-300/60 overflow-hidden shadow-sm group-hover:scale-105 transition-transform flex-shrink-0 bg-white">
-                    <img src="Avatar.png" alt="Nguyễn Trung Hiếu" class="w-full h-full object-cover object-top">
+    <!-- ============ 1. NAVIGATION BAR ============ -->
+    <nav class="fixed top-0 inset-x-0 z-50 bg-white/75 backdrop-blur-xl border-b border-slate-200/70">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+            <a href="#about" class="flex items-center gap-2.5 group">
+                <div class="w-8 h-8 rounded-lg overflow-hidden bg-slate-100 ring-1 ring-slate-200 flex-shrink-0">
+                    <img src="Avatar.png" alt="Nguyễn Trung Hiếu" class="w-full h-full object-cover object-top"
+                        onerror="this.src='https://placehold.co/64x64/0d9488/ffffff?text=NH'">
                 </div>
-                <div>
-                    <span class="font-display font-bold text-sm text-ink-900 block leading-tight">NGUYỄN TRUNG
-                        HIẾU</span>
-                    <span class="text-[10px] text-brand-500 font-semibold tracking-wider uppercase">Intern Game
-                        Designer</span>
+                <div class="leading-tight">
+                    <span class="font-display font-bold text-[13px] text-ink-900 block">NGUYỄN TRUNG HIẾU</span>
+                    <span class="text-[9.5px] text-brand-600 font-bold tracking-[.14em] uppercase">Game Designer</span>
                 </div>
             </a>
 
-            <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center space-x-7">
-                <a href="#about" class="nav-link">Giới thiệu</a>
-                <a href="#skills" class="nav-link">Kỹ năng</a>
-                <a href="#projects" class="nav-link">Dự án</a>
-                <a href="#philosophy" class="nav-link">Tư duy</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="nav-link" data-nav>Giới thiệu</a>
+                <a href="#skills" class="nav-link" data-nav>Năng lực</a>
+                <a href="#projects" class="nav-link" data-nav>Dự án</a>
+                <a href="#contact" class="nav-link" data-nav>Liên hệ</a>
                 <a href="#contact"
-                    class="px-5 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm shadow-sm shadow-brand-500/20 transition-all hover:-translate-y-0.5">
-                    Liên hệ
+                    class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold text-[13px] transition-colors">
+                    Kết nối ngay
                 </a>
             </div>
 
-            <button id="mobile-menu-btn" class="md:hidden text-ink-400 hover:text-ink-900 focus:outline-none">
+            <button id="mobile-menu-btn" class="md:hidden text-ink-500 hover:text-brand-600 p-2" aria-label="Mở menu">
                 <i data-lucide="menu" class="w-5 h-5"></i>
             </button>
         </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-surface-200 px-4 pt-2 pb-5 space-y-1">
-            <a href="#about" class="block text-ink-500 hover:text-brand-500 py-2 text-sm font-medium">Giới thiệu</a>
-            <a href="#skills" class="block text-ink-500 hover:text-brand-500 py-2 text-sm font-medium">Kỹ năng</a>
-            <a href="#projects" class="block text-ink-500 hover:text-brand-500 py-2 text-sm font-medium">Dự án</a>
-            <a href="#philosophy" class="block text-ink-500 hover:text-brand-500 py-2 text-sm font-medium">Tư duy</a>
-            <a href="#contact"
-                class="mt-2 block w-full text-center py-2.5 rounded-xl bg-brand-500 text-white font-semibold text-sm">Liên
-                hệ ngay</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur border-t border-slate-100 px-5 py-4 space-y-1">
+            <a href="#about" class="block py-2 text-sm font-medium text-ink-600 hover:text-brand-600">Giới thiệu</a>
+            <a href="#skills" class="block py-2 text-sm font-medium text-ink-600 hover:text-brand-600">Năng lực</a>
+            <a href="#projects" class="block py-2 text-sm font-medium text-ink-600 hover:text-brand-600">Dự án</a>
+            <a href="#contact" class="block py-2 text-sm font-bold text-brand-600">Liên hệ →</a>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="about" class="pt-24 pb-16 md:pt-28 md:pb-24 hero-bg relative overflow-hidden">
-        <!-- Decorative blobs -->
-        <div
-            class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-100/60 rounded-full blur-[100px] -translate-y-1/4 translate-x-1/3 pointer-events-none">
-        </div>
-        <div
-            class="absolute bottom-0 left-0 w-[400px] h-[300px] bg-violet-400/8 rounded-full blur-[80px] pointer-events-none">
-        </div>
+    <!-- ============ 2. HERO SECTION (7/5 ASYMMETRIC SPLIT) ============ -->
+    <section id="about" class="pt-32 pb-24 md:pt-44 md:pb-32 relative overflow-hidden bg-surface-50">
+        <div class="absolute top-[-180px] left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-brand-100/50 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid md:grid-cols-12 gap-14 items-center">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 relative">
+            <div class="grid lg:grid-cols-12 gap-14 lg:gap-20 items-center">
+                <!-- Left 7 cols -->
+                <div class="lg:col-span-7 reveal">
+                    <span class="inline-block text-[11px] font-bold uppercase tracking-[.18em] text-brand-700 mb-4">
+                        Game &amp; Level Designer · Unity
+                    </span>
 
-                <!-- Left Column -->
-                <div class="md:col-span-7 space-y-7 text-center md:text-left">
-
-                    <div
-                        class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-600 text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-brand-500 ping-dot"></span>
-                        <span>Sẵn sàng đi làm · 25–30h / tuần</span>
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl lg:text-[54px] font-display text-ink-900 tracking-tight">
-                        <span class="block font-bold text-ink-900 leading-[1.25] pb-1">Kiến tạo trải nghiệm</span>
-                        <span class="block font-extrabold gradient-text leading-[1.35] mt-2.5 pt-1">Game hấp dẫn &amp;
-                            Đột phá</span>
+                    <h1 class="font-display text-[42px] sm:text-5xl lg:text-[56px] font-extrabold leading-[1.12] tracking-tight text-ink-900">
+                        Nguyễn Trung Hiếu<br>
+                        <span class="gradient-text">Game Designer</span>
                     </h1>
 
-                    <blockquote
-                        class="text-base text-ink-400 italic border-l-[3px] border-brand-400 pl-4 font-medium my-4">
-                        "Think like a player, design like a creator."
-                    </blockquote>
-
-                    <p class="text-ink-400 text-sm sm:text-base leading-relaxed max-w-lg mx-auto md:mx-0">
-                        Sinh viên năm cuối CNTT (ĐH Mỏ - Địa chất) với định hướng <strong
-                            class="text-ink-700 font-semibold">Game Design</strong>. Kinh nghiệm thực chiến tự phát
-                        triển nhiều dự án Unity — từ gameplay loop, level progression đến UI flow &amp; game feel.
+                    <p class="mt-6 text-base sm:text-[17px] leading-relaxed text-ink-500 max-w-xl">
+                        Mình là <strong class="text-ink-900 font-bold">Nguyễn Trung Hiếu</strong>, sinh viên năm cuối ngành CNTT với kinh nghiệm làm <strong class="text-ink-900 font-bold">Cộng tác viên Level Design tại Sky Game</strong>. Mình tập trung xây dựng bố cục map, kiểm soát điểm nghẽn (choke points), cân bằng pacing và tự phát triển editor tool trong Unity để rút ngắn vòng lặp playtest.
                     </p>
 
-                    <!-- Contact Pills -->
-                    <div class="flex flex-wrap justify-center md:justify-start gap-2.5 text-xs">
-                        <span class="stat-chip"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-500"></i> Bắc Từ
-                            Liêm, Hà Nội</span>
-                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hieeunguyen1909@gmail.com"
-                            target="_blank" rel="noopener noreferrer"
-                            class="stat-chip hover:border-brand-400 hover:text-brand-600 transition-colors">
-                            <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-500"></i> hieeunguyen1909@gmail.com
+                    <div class="mt-9 flex flex-col sm:flex-row gap-3.5">
+                        <a href="#projects"
+                            class="px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 shadow-sm shadow-brand-600/20">
+                            Xem dự án tiêu biểu <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://github.com/hieunguyen443387" target="_blank" rel="noopener noreferrer"
+                            class="px-6 py-3.5 rounded-xl border border-slate-300 hover:border-brand-500 text-ink-700 hover:text-brand-700 font-bold text-sm inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 bg-white/70">
+                            <i data-lucide="github" class="w-4 h-4"></i> GitHub Profile
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right 5 cols: Clean compact profile -->
+                <div class="lg:col-span-5 reveal">
+                    <div class="flex flex-col sm:flex-row lg:flex-col gap-6 lg:gap-7 items-center lg:items-start">
+                        <div class="w-28 h-28 sm:w-32 lg:w-36 lg:h-36 rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-sm bg-white flex-shrink-0">
+                            <img src="Avatar.png" alt="Nguyễn Trung Hiếu" class="w-full h-full object-cover object-top"
+                                onerror="this.src='https://placehold.co/200x200/0d9488/ffffff?text=NH'">
+                        </div>
+                        <div class="flex-1 w-full text-center sm:text-left">
+                            <p class="font-display text-xl font-bold text-ink-900">Nguyễn Trung Hiếu</p>
+                            <p class="text-sm text-brand-700 font-semibold mt-0.5">Game Designer · Level Designer</p>
+                            <p class="text-[13px] text-ink-500 mt-2.5 leading-relaxed">
+                                ĐH Mỏ – Địa chất (CNTT) · Chuyên dòng Puzzle, Sliding Block, Match-3 &amp; 2D Platformer.
+                            </p>
+
+                            <div class="grid grid-cols-3 gap-4 mt-6 pt-5 border-t border-slate-200">
+                                <div>
+                                    <p class="font-display text-2xl sm:text-3xl font-extrabold text-ink-900">05</p>
+                                    <p class="text-[10px] uppercase tracking-wider text-ink-400 font-bold mt-1">Dự án Game</p>
+                                </div>
+                                <div>
+                                    <p class="font-display text-2xl sm:text-3xl font-extrabold text-ink-900">Unity</p>
+                                    <p class="text-[10px] uppercase tracking-wider text-ink-400 font-bold mt-1">Engine chính</p>
+                                </div>
+                                <div>
+                                    <p class="font-display text-2xl sm:text-3xl font-extrabold text-ink-900">750</p>
+                                    <p class="text-[10px] uppercase tracking-wider text-ink-400 font-bold mt-1">TOEIC</p>
+                                </div>
+                            </div>
+
+                            <a href="CV Nguyễn Trung Hiếu - Intern Game Designer.pdf" target="_blank"
+                                class="mt-6 inline-flex items-center gap-2 text-[13px] font-bold text-brand-700 hover-link">
+                                Mở CV Game Designer (PDF) <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 3. COMPETENCY / SKILLS SECTION (SPLIT + HAIRLINE DIVIDERS) ============ -->
+    <section id="skills" class="py-24 md:py-32 bg-white border-y border-slate-200">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+                <!-- Left intro -->
+                <div class="lg:col-span-4 reveal">
+                    <p class="text-[11px] font-bold uppercase tracking-[.18em] text-brand-600">Competency</p>
+                    <h2 class="mt-3 font-display text-3xl md:text-[34px] font-extrabold text-ink-900 leading-tight">
+                        Năng lực thiết kế
+                    </h2>
+                    <p class="mt-4 text-sm leading-relaxed text-ink-500">
+                        Bốn trụ cột cốt lõi mình áp dụng xuyên suốt quá trình làm game: từ bóc tách vòng lặp, dựng không gian màn chơi đến tối ưu cảm giác chạm và công cụ sản xuất.
+                    </p>
+                    <p class="mt-6 text-[12px] font-semibold text-ink-400">
+                        Bấm vào từng mục để xem phân tích case study chi tiết →
+                    </p>
+                </div>
+
+                <!-- Right list (Direct on background with thin dividers) -->
+                <div class="lg:col-span-8 reveal">
+                    <div class="border-t border-slate-200"></div>
+
+                    <!-- Pillar 01 -->
+                    <div class="grid sm:grid-cols-12 gap-3 sm:gap-6 py-7 border-b border-slate-200 items-start group">
+                        <div class="sm:col-span-2 font-display text-4xl font-extrabold text-slate-200 group-hover:text-brand-200 transition-colors leading-none">01</div>
+                        <div class="sm:col-span-10">
+                            <h3 class="font-display text-lg font-bold text-ink-900 group-hover:text-brand-700 transition-colors">
+                                Core Gameplay &amp; Systems
+                            </h3>
+                            <p class="text-sm text-ink-500 mt-1.5 max-w-2xl">
+                                Xây dựng chuỗi Thách thức → Phản hồi → Phần thưởng, biến mỗi tương tác nhỏ thành một quyết định chiến thuật có chiều sâu.
+                            </p>
+                            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                                <span class="text-[11px] font-semibold text-ink-400">Core Loop · Mechanic Tuning · Deadlock Prevention</span>
+                                <button onclick="openSkillModal('gameplay')"
+                                    class="inline-flex items-center gap-1 text-[12px] font-bold text-brand-700 hover:text-brand-800">
+                                    Xem case study <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 02 -->
+                    <div class="grid sm:grid-cols-12 gap-3 sm:gap-6 py-7 border-b border-slate-200 items-start group">
+                        <div class="sm:col-span-2 font-display text-4xl font-extrabold text-slate-200 group-hover:text-brand-200 transition-colors leading-none">02</div>
+                        <div class="sm:col-span-10">
+                            <h3 class="font-display text-lg font-bold text-ink-900 group-hover:text-brand-700 transition-colors">
+                                Level Architecture &amp; Pacing
+                            </h3>
+                            <p class="text-sm text-ink-500 mt-1.5 max-w-2xl">
+                                Kiểm soát choke points, phân tầng xếp lớp và đường cong độ khó để dẫn dắt người chơi gỡ thế kẹt mà vẫn giữ nhịp giải trí mượt mà.
+                            </p>
+                            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                                <span class="text-[11px] font-semibold text-ink-400">Map Layout · Choke Points · Layer Stacking</span>
+                                <button onclick="openSkillModal('level')"
+                                    class="inline-flex items-center gap-1 text-[12px] font-bold text-brand-700 hover:text-brand-800">
+                                    Xem case study <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 03 -->
+                    <div class="grid sm:grid-cols-12 gap-3 sm:gap-6 py-7 border-b border-slate-200 items-start group">
+                        <div class="sm:col-span-2 font-display text-4xl font-extrabold text-slate-200 group-hover:text-brand-200 transition-colors leading-none">03</div>
+                        <div class="sm:col-span-10">
+                            <h3 class="font-display text-lg font-bold text-ink-900 group-hover:text-brand-700 transition-colors">
+                                Game Feel &amp; Casual UX
+                            </h3>
+                            <p class="text-sm text-ink-500 mt-1.5 max-w-2xl">
+                                Tối ưu phản hồi điều khiển, chuyển cảnh camera và luồng Menu → Play → Continue liền mạch không gây đứt quãng trải nghiệm.
+                            </p>
+                            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                                <span class="text-[11px] font-semibold text-ink-400">Input Feel · Cinemachine · Frictionless UX</span>
+                                <button onclick="openSkillModal('gamefeel')"
+                                    class="inline-flex items-center gap-1 text-[12px] font-bold text-brand-700 hover:text-brand-800">
+                                    Xem case study <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 04 -->
+                    <div class="grid sm:grid-cols-12 gap-3 sm:gap-6 py-7 border-b border-slate-200 items-start group">
+                        <div class="sm:col-span-2 font-display text-4xl font-extrabold text-slate-200 group-hover:text-brand-200 transition-colors leading-none">04</div>
+                        <div class="sm:col-span-10">
+                            <h3 class="font-display text-lg font-bold text-ink-900 group-hover:text-brand-700 transition-colors">
+                                Tooling &amp; Data-driven Workflow
+                            </h3>
+                            <p class="text-sm text-ink-500 mt-1.5 max-w-2xl">
+                                Tự xây dựng Unity Editor Tool xuất/nhập JSON và tổ chức dữ liệu ScriptableObject giúp chỉnh sửa level chủ động không cần đụng code.
+                            </p>
+                            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                                <span class="text-[11px] font-semibold text-ink-400">MapSaver/Loader · JSON Config · ScriptableObject</span>
+                                <button onclick="openSkillModal('technical')"
+                                    class="inline-flex items-center gap-1 text-[12px] font-bold text-brand-700 hover:text-brand-800">
+                                    Xem case study <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional supporting skills strip -->
+            <div class="mt-14 pt-10 border-t border-slate-200 grid sm:grid-cols-3 gap-8 reveal">
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[.16em] text-brand-600">Documentation · Excel</p>
+                    <h3 class="mt-1.5 font-display text-base font-bold text-ink-900">Microsoft Excel</h3>
+                    <p class="mt-1.5 text-[13px] leading-relaxed text-ink-500">
+                        Dùng để lên và quản lý trước các thông số, chỉ số trong game một cách gọn gàng trước khi đưa vào thử nghiệm.
+                    </p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[.16em] text-brand-600">Idea &amp; GDD · Word</p>
+                    <h3 class="mt-1.5 font-display text-base font-bold text-ink-900">Microsoft Word</h3>
+                    <p class="mt-1.5 text-[13px] leading-relaxed text-ink-500">
+                        Trình bày ý tưởng game, luật chơi, luồng cơ chế và tài liệu thiết kế (GDD cơ bản) rõ ràng cho team.
+                    </p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[.16em] text-brand-600">Rapid Prototyping · Unity</p>
+                    <h3 class="mt-1.5 font-display text-base font-bold text-ink-900">Unity Prototype Nhanh</h3>
+                    <p class="mt-1.5 text-[13px] leading-relaxed text-ink-500">
+                        Dựng nhanh bản chơi thử cơ chế cốt lõi và layout màn chơi trên Unity để kiểm chứng ý tưởng sớm.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 4. FEATURED PROJECTS (FLAGSHIP + TIERED / ALTERNATING SHOWCASE) ============ -->
+    <section id="projects" class="py-24 md:py-32 bg-surface-50">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+            <!-- SECTION HEADER -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 reveal">
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-[.18em] text-brand-600">Selected Work</p>
+                    <h2 class="mt-3 font-display text-3xl md:text-[36px] font-extrabold text-ink-900">Dự án tiêu biểu</h2>
+                </div>
+                <p class="text-sm text-ink-500 max-w-md leading-relaxed">
+                    Bao gồm 02 dự án thực tế tham gia với vai trò Level Designer tại Sky Game và 03 dự án cá nhân tự phát triển trên Unity.
+                </p>
+            </div>
+
+            <!-- PART A: COMMERCIAL EXPERIENCE AT SKY GAME (BORDERLESS 2-COL EDITORIAL) -->
+            <div class="mt-14 pt-10 border-t border-slate-200 reveal">
+                <div class="flex items-center justify-between mb-8">
+                    <span class="text-xs font-bold uppercase tracking-[.16em] text-ink-900">I. Dự án thực tế — Sky Game (05/2026 – Hiện tại)</span>
+                    <span class="text-xs font-semibold text-brand-700 hidden sm:inline">Cộng tác viên Level Design</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 lg:gap-16">
+                    <!-- Work 01: Popit Block Jam -->
+                    <article class="flex flex-col justify-between">
+                        <div>
+                            <!-- Khung chừa chỗ thêm ảnh thực tế cho Game Popit Block Jam -->
+                            <div class="preview-media relative rounded-xl overflow-hidden bg-slate-100 aspect-[16/10] ring-1 ring-slate-200 mb-6">
+                                <img src="popit-block-jam.png" alt="Game Popit Block Jam — Sky Game" class="w-full h-full object-cover"
+                                    onerror="this.src='https://placehold.co/800x500/f1f5f9/0f766e?text=Them+Anh+Popit+Block+Jam+(popit-block-jam.jpg)'">
+                            </div>
+
+                            <div class="flex items-baseline gap-3">
+                                <span class="font-display text-2xl font-extrabold text-brand-600">01</span>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-ink-400">Sliding Block Puzzle / Casual</span>
+                            </div>
+                            <h3 class="mt-2 font-display text-2xl font-extrabold text-ink-900">Game Popit Block Jam</h3>
+                            <p class="mt-2.5 text-[14px] leading-relaxed text-ink-600">
+                                Thiết kế bố cục màn chơi, điều chỉnh cơ chế tương thích và kiểm soát điểm nghẽn cho dòng game giải đố trượt khối màu.
+                            </p>
+
+                            <ul class="mt-5 space-y-3 text-[13px] text-ink-500 border-t border-slate-200/80 pt-4">
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Tinh chỉnh Mechanic:</strong> Nghiên cứu Color Block Jam; đề xuất cơ chế thay thế tương thích cho các chướng ngại vật chưa hỗ trợ để giữ trọn độ hấp dẫn.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Bố cục Map &amp; Choke Points:</strong> Sắp đặt khối màu, vật cản và cửa thoát theo flow logic nhằm kích thích người chơi tìm đường gỡ khóa.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Chống Deadlock &amp; Pacing:</strong> Tính toán nước đi loại bỏ triệt để thế kẹt vô nghiệm, điều tiết độ khó tăng dần.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-6 pt-3">
+                            <button onclick="openSkillModal('level')"
+                                class="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-brand-700 hover-link">
+                                Chi tiết tư duy Level Design <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Work 02: Game Tile Adventure -->
+                    <article class="flex flex-col justify-between">
+                        <div>
+                            <!-- Khung chừa chỗ thêm ảnh thực tế cho Game Tile Adventure -->
+                            <div class="preview-media relative rounded-xl overflow-hidden bg-slate-100 aspect-[16/10] ring-1 ring-slate-200 mb-6">
+                                <img src="tile-adventure.png" alt="Game Tile Adventure — Sky Game" class="w-full h-full object-cover"
+                                    onerror="this.src='https://placehold.co/800x500/f1f5f9/0f766e?text=Them+Anh+Tile+Adventure+(tile-adventure.jpg)'">
+                            </div>
+
+                            <div class="flex items-baseline gap-3">
+                                <span class="font-display text-2xl font-extrabold text-brand-600">02</span>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-ink-400">Match-3 / Triple Match Puzzle</span>
+                            </div>
+                            <h3 class="mt-2 font-display text-2xl font-extrabold text-ink-900">Game Tile Adventure</h3>
+                            <p class="mt-2.5 text-[14px] leading-relaxed text-ink-600">
+                                Xây dựng cấu trúc xếp lớp tile đa tầng và trực tiếp playtest để duy trì nhịp độ giải trí thư giãn (casual flow).
+                            </p>
+
+                            <ul class="mt-5 space-y-3 text-[13px] text-ink-500 border-t border-slate-200/80 pt-4">
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Phân tầng xếp lớp (Layer Stacking):</strong> Xếp chồng các lớp tile và tính toán tỷ lệ mở khóa item hợp lý, tránh làm đầy khay chứa quá sớm gây nản.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Playtesting &amp; Tinh chỉnh nhịp độ:</strong> Đo lường thời gian hoàn thành màn chơi, kiểm thử các nút thắt độ khó để giữ trải nghiệm cuốn hút.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-6 pt-3">
+                            <button onclick="openSkillModal('gameplay')"
+                                class="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-brand-700 hover-link">
+                                Chi tiết tư duy Gameplay Loop <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- PART B: PERSONAL UNITY PROJECTS (FLAGSHIP TOP + ALTERNATING SHOWCASE) -->
+            <div class="mt-20 pt-12 border-t border-slate-200">
+                <div class="flex items-center justify-between mb-12 reveal">
+                    <span class="text-xs font-bold uppercase tracking-[.16em] text-ink-900">Dự án cá nhân tiêu biểu — Unity / C#</span>
+                    <span class="text-xs font-semibold text-ink-400 hidden sm:inline">03 tựa game tự hoàn thiện</span>
+                </div>
+
+                <!-- FLAGSHIP PROJECT: BLOCK DASH 2D (LARGER TOP SHOWCASE + VIDEO MODAL TRIGGER) -->
+                <article class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center reveal">
+                    <div class="lg:col-span-7">
+                        <div onclick="openProjectVideoModal('blockdash')"
+                            class="preview-media group relative rounded-2xl overflow-hidden bg-ink-900 aspect-[16/10] ring-1 ring-slate-800 cursor-pointer shadow-sm">
+                            <img src="LogoGameBlockDash2D.png" alt="Block Dash 2D build Unity"
+                                    class="w-full h-full object-cover"
+                                    onerror="this.src='https://placehold.co/800x500/0f172a/2dd4bf?text=Block+Dash+2D'">
+                            <div
+                                class="absolute inset-0 bg-ink-900/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                                <span class="text-[11px] font-bold uppercase tracking-[.2em] text-brand-300">Escape /
+                                    Block Jam Puzzle · Unity / C# / Editor Tool</span>
+                                <h4 class="mt-2 font-display text-2xl sm:text-3xl font-extrabold text-white">Block Dash
+                                    2D</h4>
+                                <span
+                                    class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-brand-600 text-white text-xs font-bold shadow">
+                                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Xem Gameplay Demo (2 videos)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <div class="flex items-center gap-3">
+                            <span class="font-display text-4xl font-extrabold text-slate-200 leading-none">01</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[.18em] text-brand-600">Unity / C# / Editor Tool</span>
+                        </div>
+                        <h3 class="mt-3 font-display text-3xl font-extrabold text-ink-900">Block Dash 2D (Escape / Block Jam Puzzle)</h3>
+                        <p class="mt-2.5 text-[14.5px] leading-relaxed text-ink-600">
+                            Mỗi khối mũi tên chỉ đi một hướng — người chơi phải gỡ thế kẹt để đưa toàn bộ block ra cổng thoát.
+                        </p>
+
+                        <ul class="mt-6 space-y-3.5 text-[13px] text-ink-500 border-t border-slate-200 pt-4">
+                            <li>
+                                <strong class="text-ink-900 font-semibold">Core Mechanic &amp; Level Design:</strong> Xây dựng cơ chế escape-jam trên lưới: block trượt đến khi bị cản rồi đi dọc viền vào cổng; bố trí choke point, cổng một chiều và 6+ loại block (mũi tên, hai chiều, lùi, băng, bom chịu lực, bom thời gian) tạo thế kẹt có lối giải.
+                            </li>
+                            <li>
+                                <strong class="text-ink-900 font-semibold">Cân bằng &amp; Booster:</strong> Tích hợp Remove / Reverse / Shuffle kèm điều kiện sử dụng (không đảo block băng, không lãng phí lượt khi click nhầm) — kiểm soát deadlock mà vẫn giữ thử thách giải đố.
+                            </li>
+                            <li>
+                                <strong class="text-ink-900 font-semibold">Tool xếp map riêng (MapSaver / MapLoader + Custom Inspector):</strong> Quét scene xuất cấu hình bàn cờ, viền, cổng và từng block (tọa độ lưới, hướng, trạng thái băng/bom) thành file JSON; load lại map từ palette prefab, tự nhận diện level cao nhất, có nút Load/Restart ngay trong Setting Panel — rút ngắn vòng lặp design → playtest.
+                            </li>
+                            <li>
+                                <strong class="text-ink-900 font-semibold">Progress &amp; UX Flow:</strong> Lưu session theo level (vị trí/hướng/trạng thái block + số lượt booster) cho Continue/Retry sau khi thua hoặc thoát app; hoàn thiện luồng Menu → Play → Win/Lose với trạng thái nút Continue dựa trên dữ liệu save thực tế.
+                            </li>
+                        </ul>
+
+                        <div class="mt-7 flex flex-wrap items-center gap-6">
+                            <button
+                                onclick="openProjectVideoModal('blockdash')"
+                                class="inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-700 hover-link">
+                                Gameplay Demo <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="openSkillModal('technical')"
+                                class="inline-flex items-center gap-1.5 text-[13px] font-bold text-ink-600 hover-link">
+                                Chi tiết Editor Tool <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <a href="https://github.com/hieunguyen443387/Game-Block-Dash-2D.git" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-1.5 text-[13px] font-bold text-ink-500 hover-link">
+                                Source Code <i data-lucide="github" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SECONDARY PERSONAL PROJECTS: SAME 2-COL SHOWCASE AS BLOCK DASH 2D WITH HOVER TITLE OVERLAY -->
+                <div class="mt-20 pt-16 border-t border-slate-200 space-y-20">
+
+                    <!-- 02: NINJA FROG ADVENTURE -->
+                    <article class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center reveal">
+                        <div class="lg:col-span-7">
+                            <div onclick="openProjectVideoModal('ninjafrog')"
+                                class="preview-media group relative rounded-2xl overflow-hidden bg-ink-900 aspect-[16/10] ring-1 ring-slate-800 cursor-pointer shadow-sm">
+                                <img src="ninjafrog.png" alt="Ninja Frog Adventure build Unity"
+                                    class="w-full h-full object-cover"
+                                    onerror="this.src='https://placehold.co/800x500/0f172a/2dd4bf?text=Ninja+Frog+Adventure'">
+                                <div
+                                    class="absolute inset-0 bg-ink-900/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                                    <span class="text-[11px] font-bold uppercase tracking-[.2em] text-brand-300">2D
+                                        Platformer · Unity / C# / Cinemachine</span>
+                                    <h4 class="mt-2 font-display text-2xl sm:text-3xl font-extrabold text-white">Ninja
+                                        Frog Adventure</h4>
+                                    <span
+                                        class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-brand-600 text-white text-xs font-bold shadow">
+                                        <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Gameplay Demo (2 videos)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5">
+                            <div class="flex items-center gap-3">
+                                <span class="font-display text-4xl font-extrabold text-slate-200 leading-none">02</span>
+                                <span class="text-[10px] font-bold uppercase tracking-[.18em] text-brand-600">Unity / C# / Cinemachine</span>
+                            </div>
+                            <h3 class="mt-3 font-display text-3xl font-extrabold text-ink-900">Ninja Frog Adventure (2D Platformer)</h3>
+
+                            <ul class="mt-6 space-y-3.5 text-[13px] text-ink-500 border-t border-slate-200 pt-4">
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Gameplay &amp; Game feel:</strong> Dựng điều khiển ninja pixel-art (chạy, nhảy đôi, wall-jump/wall-slide, ném shuriken 3 hướng); ngắt/gắn Cinemachine Follow lúc chết – hồi sinh để camera rơi cùng nhân vật rồi snap về checkpoint.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Level streaming &amp; Parallax:</strong> Chia map thành chunk 64 tile, chỉ giữ 3 chunk quanh camera và bật/tắt nhóm nội dung theo khoảng cách 25 units; nền tilemap parallax tái chế vô hạn — tối ưu hiệu năng trên bản build.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Enemy AI, Bẫy &amp; Checkpoint:</strong> Thiết kế 10+ loại địch với AI riêng (tuần tra, đuổi có raycast, nhảy tính quỹ đạo, lăn miễn nhiễm, dịch chuyển, bắn đạn, boss đổi phase/tách đá) cùng 4 loại bẫy; dùng Animation Event căn đúng frame chuyển phase, dễ cân chỉnh không sửa code.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Save/Load &amp; UI Flow:</strong> Lưu JSON theo từng enemy ID (máu, vị trí, trạng thái chết) và player (máu, scene, vị trí); hoàn thiện luồng Menu → Pause → Game Over → Win → Continue, chuyển scene qua hiệu ứng fade.
+                                </li>
+                            </ul>
+
+                            <div class="mt-7 flex flex-wrap items-center gap-6">
+                                <a href="https://github.com/hieunguyen443387/Adventuregame.git" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1.5 text-[13px] font-bold text-ink-500 hover-link">
+                                    Source Code <i data-lucide="github" class="w-3.5 h-3.5"></i>
+                                </a>
+                                <button
+                                    onclick="openProjectVideoModal('ninjafrog')"
+                                    class="inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-700 hover-link">
+                                    Gameplay Demo <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 03: GAME 2048 -->
+                    <article class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center reveal">
+                        <div class="lg:col-span-7">
+                            <div onclick="openProjectVideoModal('game2048')"
+                                class="preview-media group relative rounded-2xl overflow-hidden bg-ink-900 aspect-[16/10] ring-1 ring-slate-800 cursor-pointer shadow-sm">
+                                <img src="game2048-gameplay.jpg" alt="Game 2048 build Unity"
+                                    class="w-full h-full object-cover"
+                                    onerror="this.src='https://placehold.co/800x500/0f172a/2dd4bf?text=Game+2048'">
+                                <div
+                                    class="absolute inset-0 bg-ink-900/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                                    <span class="text-[11px] font-bold uppercase tracking-[.2em] text-brand-300">Casual
+                                        / Puzzle · Unity / uGUI</span>
+                                    <h4 class="mt-2 font-display text-2xl sm:text-3xl font-extrabold text-white">Game
+                                        2048</h4>
+                                    <span
+                                        class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-brand-600 text-white text-xs font-bold shadow">
+                                        <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Gameplay Demo
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5">
+                            <div class="flex items-center gap-3">
+                                <span class="font-display text-4xl font-extrabold text-slate-200 leading-none">03</span>
+                                <span class="text-[10px] font-bold uppercase tracking-[.18em] text-brand-600">Unity / uGUI</span>
+                            </div>
+                            <h3 class="mt-3 font-display text-3xl font-extrabold text-ink-900">Game 2048 (Casual / Puzzle)</h3>
+
+                            <ul class="mt-6 space-y-3.5 text-[13px] text-ink-500 border-t border-slate-200 pt-4">
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Luật chơi &amp; Kiến trúc:</strong> Cài đặt luật 2048 chuẩn trên bàn cờ suy kích thước từ scene: duyệt ô theo hướng trượt + cờ lock để mỗi quân chỉ gộp 1 lần/lượt, spawn đúng 1 tile sau mỗi nước đi, nhận diện Game Over khi bàn đầy và hết nước gộp.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Casual UX &amp; Game feel:</strong> Khóa input 0,1s khớp animation trượt, hỗ trợ WASD lẫn mũi tên, trễ 1s rồi fade màn thua để người chơi kịp nhận kết quả; cộng điểm theo tile mới và lưu high score qua PlayerPrefs tạo động lực chơi lại.
+                                </li>
+                                <li>
+                                    <strong class="text-ink-900 font-semibold">Data-driven &amp; mở rộng:</strong> Tách Model–Controller–View–Data, dùng ScriptableObject (TileState) cho phép designer tạo cấp số/bảng màu mới không đụng code; xử lý rebuild layout và alpha để tile hiển thị đúng mọi resolution.
+                                </li>
+                            </ul>
+
+                            <div class="mt-7 flex flex-wrap items-center gap-6">
+                                <a href="https://github.com/hieunguyen443387/Project-Game-2048.git" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1.5 text-[13px] font-bold text-ink-500 hover-link">
+                                    Source Code <i data-lucide="github" class="w-3.5 h-3.5"></i>
+                                </a>
+                                <button onclick="openProjectVideoModal('game2048')"
+                                    class="inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-700 hover-link">
+                                    Gameplay Demo <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 5. PHILOSOPHY / MINDSET SECTION (EDITORIAL 3-COL) ============ -->
+    <section id="philosophy" class="py-24 md:py-28 bg-white border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8">
+            <div class="reveal">
+                <p class="text-[11px] font-bold uppercase tracking-[.18em] text-brand-600">Design Mindset</p>
+                <h2 class="mt-3 font-display text-3xl md:text-[34px] font-extrabold text-ink-900">Tư duy làm game</h2>
+            </div>
+
+            <div class="mt-14 grid md:grid-cols-3 gap-10 md:gap-12">
+                <div class="border-t-2 border-ink-900 pt-5 reveal">
+                    <p class="font-display text-5xl font-extrabold text-slate-200 leading-none">01</p>
+                    <h3 class="mt-5 font-display text-lg font-bold text-ink-900">Bóc tách trước, dựng sau</h3>
+                    <p class="mt-2.5 text-[13.5px] leading-relaxed text-ink-500">
+                        Hiểu rõ vì sao một màn chơi tạo được sự cuốn hút hoặc gây kẹt trước khi đặt block vào map. Phân tích kỹ core loop và choke points giúp mọi quyết định thiết kế đều có chủ đích.
+                    </p>
+                </div>
+                <div class="border-t-2 border-ink-900 pt-5 reveal">
+                    <p class="font-display text-5xl font-extrabold text-slate-200 leading-none">02</p>
+                    <h3 class="mt-5 font-display text-lg font-bold text-ink-900">Tạo điểm nhấn từ cơ chế</h3>
+                    <p class="mt-2.5 text-[13.5px] leading-relaxed text-ink-500">
+                        Một khối trượt một chiều hay một khay chứa 7 ô — cơ chế cốt lõi càng rõ ràng thì người chơi càng dễ nắm bắt trong vài giây đầu nhưng vẫn đủ chiều sâu để chinh phục.
+                    </p>
+                </div>
+                <div class="border-t-2 border-ink-900 pt-5 reveal">
+                    <p class="font-display text-5xl font-extrabold text-slate-200 leading-none">03</p>
+                    <h3 class="mt-5 font-display text-lg font-bold text-ink-900">Chủ động công cụ &amp; phối hợp</h3>
+                    <p class="mt-2.5 text-[13.5px] leading-relaxed text-ink-500">
+                        Tự xây tool hỗ trợ xếp map, kiên nhẫn playtest tinh chỉnh độ khó và luôn trao đổi sát sao với Dev/Artist để đảm bảo tính khả thi của sản phẩm.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 6. CONTACT & FOOTER SECTION ============ -->
+    <footer id="contact" class="py-20 md:py-24 bg-surface-50 border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8">
+            <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
+                <div class="reveal">
+                    <p class="text-[11px] font-bold uppercase tracking-[.18em] text-brand-600">Contact</p>
+                    <h2 class="mt-3 font-display text-3xl md:text-4xl font-extrabold text-ink-900 leading-tight">
+                        Kết nối cho dự án<br>game tiếp theo.
+                    </h2>
+                    <p class="mt-4 text-sm text-ink-500 leading-relaxed max-w-md">
+                        Mình luôn cởi mở trao đổi về Game Design, Level Design hoặc các cơ hội hợp tác phát triển sản phẩm. Hãy liên hệ trực tiếp qua các kênh bên cạnh nhé.
+                    </p>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hieeunguyen1909@gmail.com" target="_blank" rel="noopener noreferrer"
+                        class="mt-7 inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm transition-all hover:-translate-y-0.5 shadow-sm shadow-brand-600/20">
+                        Gửi email ngay <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="reveal md:pt-8">
+                    <div class="divide-y divide-slate-200 border-t border-b border-slate-200">
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hieeunguyen1909@gmail.com" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center justify-between py-3.5 hover:text-brand-700 transition-colors group">
+                            <span class="flex items-center gap-3 text-sm font-semibold text-ink-700 group-hover:text-brand-700">
+                                <i data-lucide="mail" class="w-4 h-4 text-brand-600"></i> hieeunguyen1909@gmail.com
+                            </span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-ink-400 group-hover:text-brand-600"></i>
                         </a>
                         <a href="tel:0942302635"
-                            class="stat-chip hover:border-brand-400 hover:text-brand-600 transition-colors">
-                            <i data-lucide="phone" class="w-3.5 h-3.5 text-brand-500"></i> 094 230 2635
+                            class="flex items-center justify-between py-3.5 hover:text-brand-700 transition-colors group">
+                            <span class="flex items-center gap-3 text-sm font-semibold text-ink-700 group-hover:text-brand-700">
+                                <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i> 094 230 2635
+                            </span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-ink-400 group-hover:text-brand-600"></i>
                         </a>
-                        <span class="stat-chip"><i data-lucide="languages" class="w-3.5 h-3.5 text-brand-500"></i> TOEIC
-                            750</span>
-                    </div>
-
-                    <!-- CTA -->
-                    <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-1">
-                        <a href="#projects"
-                            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm flex items-center justify-center space-x-2 shadow-sm shadow-brand-500/25 transition-all hover:-translate-y-0.5">
-                            <span>Xem dự án tiêu biểu</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <a href="https://github.com/hieunguyen443387" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center justify-between py-3.5 hover:text-brand-700 transition-colors group">
+                            <span class="flex items-center gap-3 text-sm font-semibold text-ink-700 group-hover:text-brand-700">
+                                <i data-lucide="github" class="w-4 h-4 text-brand-600"></i> github.com/hieunguyen443387
+                            </span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-ink-400 group-hover:text-brand-600"></i>
                         </a>
-                        <a href="https://github.com/hieunguyen443387" target="_blank"
-                            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white border border-surface-200 hover:border-brand-300 text-ink-700 font-semibold text-sm flex items-center justify-center space-x-2 transition-all hover:-translate-y-0.5 shadow-sm">
-                            <i data-lucide="github" class="w-4 h-4"></i>
-                            <span>GitHub / Portfolio Code</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Right Column - Sleek Dashboard Profile Card -->
-                <div class="md:col-span-5 flex justify-center">
-                    <div class="relative w-full max-w-sm">
-                        <!-- Glow backdrop -->
-                        <div
-                            class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-brand-400/20 via-brand-accent/20 to-violet-400/15 blur-xl">
-                        </div>
-
-                        <div class="relative bg-white border border-surface-200 rounded-2xl overflow-hidden shadow-lg">
-
-                            <!-- Header Banner -->
-                            <div
-                                class="bg-gradient-to-r from-brand-500 via-brand-600 to-brand-accent p-6 text-white relative">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div
-                                        class="w-16 h-16 rounded-2xl border-2 border-white/50 overflow-hidden shadow-md flex-shrink-0 bg-white group-hover:scale-105 transition-transform">
-                                        <img src="Avatar.png" alt="Nguyễn Trung Hiếu"
-                                            class="w-full h-full object-cover object-top">
-                                    </div>
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[11px] font-bold uppercase tracking-wider text-white">
-                                        <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span> Open to
-                                        Work
-                                    </span>
-                                </div>
-                                <div class="space-y-0.5">
-                                    <p class="text-white/80 text-xs font-medium uppercase tracking-wider">Intern Game
-                                        Designer</p>
-                                    <h3 class="text-2xl font-display font-extrabold text-white leading-tight">Nguyễn
-                                        Trung Hiếu</h3>
-                                </div>
-                            </div>
-
-                            <!-- Stats Row -->
-                            <div
-                                class="grid grid-cols-3 divide-x divide-surface-200 bg-surface-50 border-b border-surface-200">
-                                <div class="text-center py-3.5 px-2">
-                                    <p class="text-xl font-display font-bold text-ink-900">3</p>
-                                    <p class="text-[10px] text-ink-400 font-bold uppercase tracking-wider mt-0.5">Dự án Game</p>
-                                </div>
-                                <div class="text-center py-3.5 px-2">
-                                    <p class="text-xl font-display font-bold text-brand-600">Engine</p>
-                                    <p class="text-[10px] text-ink-400 font-bold uppercase tracking-wider mt-0.5">Unity C#</p>
-                                </div>
-                                <div class="text-center py-3.5 px-2">
-                                    <p class="text-xl font-display font-bold text-violet-600">Bot AI</p>
-                                    <p class="text-[10px] text-ink-400 font-bold uppercase tracking-wider mt-0.5">Auto Balance</p>
-                                </div>
-                            </div>
-
-                            <!-- Info List -->
-                            <div class="p-5 space-y-3">
-                                <div class="flex items-center justify-between text-xs py-1 border-b border-surface-100">
-                                    <span class="flex items-center gap-2 text-ink-400 font-medium">
-                                        <i data-lucide="graduation-cap" class="w-4 h-4 text-brand-500"></i> Nền tảng
-                                    </span>
-                                    <span class="font-bold text-ink-700">CNTT (ĐH Mỏ - Địa chất)</span>
-                                </div>
-                                <div class="flex items-center justify-between text-xs py-1 border-b border-surface-100">
-                                    <span class="flex items-center gap-2 text-ink-400 font-medium">
-                                        <i data-lucide="brain" class="w-4 h-4 text-brand-500"></i> Định hướng
-                                    </span>
-                                    <span class="font-bold text-ink-700">Gameplay & Level Designer</span>
-                                </div>
-                                <div class="flex items-center justify-between text-xs py-1 border-b border-surface-100">
-                                    <span class="flex items-center gap-2 text-ink-400 font-medium">
-                                        <i data-lucide="file-text" class="w-4 h-4 text-brand-500"></i> Deliverables
-                                    </span>
-                                    <span class="font-bold text-ink-700">GDD, Level Maps, Unity Code</span>
-                                </div>
-                                <div class="flex items-center justify-between text-xs py-1">
-                                    <span class="flex items-center gap-2 text-ink-400 font-medium">
-                                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-500"></i> Trạng thái
-                                    </span>
-                                    <span
-                                        class="font-bold text-brand-600 bg-brand-50 border border-brand-200 px-2 py-0.5 rounded-md">Sẵn sàng đi làm (On-site HN)</span>
-                                </div>
-                            </div>
-
-                            <!-- Skill Tags Footer -->
-                            <div class="px-5 pb-5 pt-1">
-                                <div class="bg-surface-50 border border-surface-200 rounded-xl p-3.5 space-y-2.5">
-                                    <div class="flex items-center justify-between">
-                                        <p class="text-[10px] text-ink-400 font-bold uppercase tracking-widest">Năng lực Game Design Cốt Lõi</p>
-                                        <span
-                                            class="text-[9px] font-bold text-brand-600 bg-brand-50 border border-brand-200 px-2 py-0.5 rounded-md uppercase">Core Pillars</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-1.5 text-[10px] sm:text-[11px]">
-                                        <div
-                                            class="px-2.5 py-1.5 rounded-lg bg-brand-50 border border-brand-200 text-brand-700 font-bold flex items-center gap-1.5">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0"></span>
-                                            <span>Core Gameplay Loop</span>
-                                        </div>
-                                        <div
-                                            class="px-2.5 py-1.5 rounded-lg bg-violet-50 border border-violet-200 text-violet-700 font-bold flex items-center gap-1.5">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0"></span>
-                                            <span>Level Architecture</span>
-                                        </div>
-                                        <div
-                                            class="px-2.5 py-1.5 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-700 font-bold flex items-center gap-1.5">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0"></span>
-                                            <span>Game Feel & Juice</span>
-                                        </div>
-                                        <div
-                                            class="px-2.5 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold flex items-center gap-1.5">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                                            <span>Unity Prototyping</span>
-                                        </div>
-                                        <div
-                                            class="px-2.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold flex items-center gap-1.5">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
-                                            <span>GDD Specification</span>
-                                        </div>
-                                        <div
-                                            class="px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 font-bold flex items-center gap-1.5">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></span>
-                                            <span>AutoPlay Level Test</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="flex items-center justify-between py-3.5">
+                            <span class="flex items-center gap-3 text-sm font-semibold text-ink-700">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-brand-600"></i> Bắc Từ Liêm, Hà Nội · TOEIC 750
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- CORE SKILLS -->
-    <section id="skills" class="py-20 bg-white border-y border-surface-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-    <!-- CORE SKILLS & GAME DESIGN COMPETENCY -->
-    <section id="skills" class="py-20 bg-white border-y border-surface-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-            <div class="text-center space-y-3 max-w-2xl mx-auto">
-                <p class="section-label">Competency &amp; Breakdown Framework</p>
-                <h2 class="text-3xl font-display font-bold text-ink-900">Năng Lực Thiết Kế Game &amp; Case Study</h2>
-                <p class="text-ink-300 text-sm leading-relaxed">Phân tích sâu tư duy thiết kế, phương pháp thực thi, biểu đồ chuyên môn và công cụ hiện thực hóa qua 4 trụ cột cốt lõi.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                <!-- Pillar 1: Gameplay Loop -->
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-6 space-y-4 card-hover hover:border-brand-300 group flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div
-                                class="w-11 h-11 rounded-xl bg-brand-500 text-white flex items-center justify-center shadow-sm shadow-brand-500/30 group-hover:scale-105 transition-transform">
-                                <i data-lucide="gamepad-2" class="w-5 h-5"></i>
-                            </div>
-                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-brand-600 bg-brand-50 border border-brand-200 px-2 py-0.5 rounded-md">Pillar 01</span>
-                        </div>
-                        <h3 class="text-base font-display font-bold text-ink-900">Vòng Lặp Core &amp; Hệ Thống Game</h3>
-                        <ul class="space-y-2.5 text-xs text-ink-400">
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Core Loop Architecture:</strong> Xây dựng chuỗi Thách thức $\rightarrow$ Phản hồi $\rightarrow$ Phần thưởng thúc đẩy Retention.</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Mechanics Synergy:</strong> Phân tích tương tác giữa kỹ năng người chơi &amp; nhịp ra đòn của Boss.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="space-y-3 pt-4 border-t border-surface-200/80">
-                        <div class="flex flex-wrap gap-1">
-                            <span class="skill-badge">Core Loop</span>
-                            <span class="skill-badge">Systems</span>
-                            <span class="skill-badge">Mechanics</span>
-                        </div>
-                        <button onclick="openSkillModal('gameplay')"
-                            class="w-full py-2 px-3 rounded-xl bg-brand-50 hover:bg-brand-100 border border-brand-200 text-brand-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
-                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                            <span>Xem Case Study Quy Trình</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Pillar 2: Level Design & Pacing -->
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-6 space-y-4 card-hover hover:border-violet-400/50 group flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div
-                                class="w-11 h-11 rounded-xl bg-violet-500 text-white flex items-center justify-center shadow-sm shadow-violet-500/30 group-hover:scale-105 transition-transform">
-                                <i data-lucide="layers" class="w-5 h-5"></i>
-                            </div>
-                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-violet-600 bg-violet-50 border border-violet-200 px-2 py-0.5 rounded-md">Pillar 02</span>
-                        </div>
-                        <h3 class="text-base font-display font-bold text-ink-900">Kiến Trúc Level &amp; Pacing</h3>
-                        <ul class="space-y-2.5 text-xs text-ink-400">
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-violet-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Difficulty Ramp:</strong> Kiểm soát nhịp độ tịnh tiến (Sawtooth Curve) giữ trạng thái Flow State.</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-violet-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Spatial Hazard Layout:</strong> Bố trí quái vật &amp; bẫy tối ưu phản xạ điều khiển.</span>
-                            </li>
-                        </ul>
-
-                        <!-- Visual SVG Diagram: Level Difficulty Pacing -->
-                        <div class="bg-white border border-surface-200 rounded-xl p-2.5 space-y-1 shadow-inner">
-                            <div class="flex items-center justify-between text-[10px] font-bold text-ink-500">
-                                <span>Model Đường Cong Độ Khó</span>
-                                <span class="text-violet-600 font-extrabold">Sawtooth Curve</span>
-                            </div>
-                            <svg viewBox="0 0 200 45" class="w-full h-9 text-violet-500 stroke-current fill-none">
-                                <path d="M5,35 L35,28 L65,16 L85,35 L125,20 L155,8 L195,35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <circle cx="35" cy="28" r="3" class="fill-brand-500" />
-                                <circle cx="65" cy="16" r="3" class="fill-amber-500" />
-                                <circle cx="155" cy="8" r="3.5" class="fill-rose-500 animate-ping" />
-                                <circle cx="155" cy="8" r="3.5" class="fill-rose-500" />
-                            </svg>
-                            <div class="flex justify-between text-[8px] text-ink-400 font-bold uppercase tracking-tighter">
-                                <span>Tutorial</span>
-                                <span>Ramp Up</span>
-                                <span>Boss Peak</span>
-                                <span>Rest</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-3 pt-4 border-t border-surface-200/80">
-                        <div class="flex flex-wrap gap-1">
-                            <span class="skill-badge">Pacing Map</span>
-                            <span class="skill-badge">Flow State</span>
-                            <span class="skill-badge">Level Grid</span>
-                        </div>
-                        <button onclick="openSkillModal('level')"
-                            class="w-full py-2 px-3 rounded-xl bg-violet-50 hover:bg-violet-100 border border-violet-200 text-violet-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
-                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                            <span>Xem Case Study Quy Trình</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Pillar 3: Game Feel & UX -->
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-6 space-y-4 card-hover hover:border-cyan-400/50 group flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div
-                                class="w-11 h-11 rounded-xl bg-brand-accent text-white flex items-center justify-center shadow-sm shadow-cyan-500/30 group-hover:scale-105 transition-transform">
-                                <i data-lucide="sparkles" class="w-5 h-5"></i>
-                            </div>
-                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 bg-cyan-50 border border-cyan-200 px-2 py-0.5 rounded-md">Pillar 03</span>
-                        </div>
-                        <h3 class="text-base font-display font-bold text-ink-900">Game Feel &amp; UX "Juice"</h3>
-                        <ul class="space-y-2.5 text-xs text-ink-400">
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Juice Micro-Interactions:</strong> Squash/Stretch, Hitstop, Camera Shake tăng sự thỏa mãn giác quan.</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Frictionless UI Flow:</strong> Tối ưu luồng Pause, Game Over &amp; Replay trong 0.2s.</span>
-                            </li>
-                        </ul>
-
-                        <!-- Visual SVG Diagram: Sensory Feedback Loop -->
-                        <div class="bg-white border border-surface-200 rounded-xl p-2.5 space-y-1.5 shadow-inner">
-                            <div class="flex items-center justify-between text-[10px] font-bold text-ink-500">
-                                <span>Vòng Lặp Phản Hồi Giác Quan</span>
-                                <span class="text-cyan-600 font-extrabold">Juice Loop</span>
-                            </div>
-                            <div class="grid grid-cols-3 gap-1 text-[8px] text-center font-bold">
-                                <div class="bg-surface-100 border border-surface-200 p-1 rounded text-ink-700">Input</div>
-                                <div class="bg-cyan-50 border border-cyan-200 p-1 rounded text-cyan-700">Hitstop/Shake</div>
-                                <div class="bg-emerald-50 border border-emerald-200 p-1 rounded text-emerald-700">Satisfaction</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-3 pt-4 border-t border-surface-200/80">
-                        <div class="flex flex-wrap gap-1">
-                            <span class="skill-badge">Hitstop</span>
-                            <span class="skill-badge">Feedback Loop</span>
-                            <span class="skill-badge">UX ergonomics</span>
-                        </div>
-                        <button onclick="openSkillModal('gamefeel')"
-                            class="w-full py-2 px-3 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 text-cyan-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
-                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                            <span>Xem Case Study Quy Trình</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Pillar 4: Technical & Auto Balancing -->
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-6 space-y-4 card-hover hover:border-amber-400/50 group flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div
-                                class="w-11 h-11 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-sm shadow-amber-500/30 group-hover:scale-105 transition-transform">
-                                <i data-lucide="bot" class="w-5 h-5"></i>
-                            </div>
-                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">Pillar 04</span>
-                        </div>
-                        <h3 class="text-base font-display font-bold text-ink-900">Prototype &amp; Auto Bot Balance</h3>
-                        <ul class="space-y-2.5 text-xs text-ink-400">
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i>
-                                <span><strong>Unity C# Prototyping:</strong> Tự thực thi &amp; kiểm chứng nhanh ý tưởng gameplay ngay trên Unity Engine.</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i>
-                                <span><strong>AutoPlay Testing Bot:</strong> Lập trình bot tự chạy 1,000+ lượt chơi để tự động hóa kiểm tra độ khó level.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="space-y-3 pt-4 border-t border-surface-200/80">
-                        <div class="flex flex-wrap gap-1">
-                            <span class="skill-badge">Unity C#</span>
-                            <span class="skill-badge">Solver AI Bot</span>
-                            <span class="skill-badge">GDD Spec</span>
-                        </div>
-                        <button onclick="openSkillModal('technical')"
-                            class="w-full py-2 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
-                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                            <span>Xem Case Study Quy Trình</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Highlight Pills -->
-            <div class="pt-6 border-t border-surface-200 flex flex-wrap justify-center gap-2.5">
-                <span class="skill-badge flex items-center gap-1.5 py-1.5 px-3"><i data-lucide="brain-circuit"
-                        class="w-3.5 h-3.5 text-brand-500"></i> Phân tích &amp; Giải quyết vấn đề kỹ thuật</span>
-                <span class="skill-badge flex items-center gap-1.5 py-1.5 px-3"><i data-lucide="layers"
-                        class="w-3.5 h-3.5 text-violet-500"></i> Level Progression &amp; Difficulty Curve</span>
-                <span class="skill-badge flex items-center gap-1.5 py-1.5 px-3"><i data-lucide="search"
-                        class="w-3.5 h-3.5 text-brand-accent"></i> Bóc tách Gameplay &amp; Market Research</span>
-                <span class="skill-badge flex items-center gap-1.5 py-1.5 px-3"><i data-lucide="languages"
-                        class="w-3.5 h-3.5 text-amber-500"></i> TOEIC 750 (Đọc hiểu tài liệu GDD Tiếng Anh)</span>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- FEATURED PROJECTS -->
-    <section id="projects" class="py-20 bg-surface-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
-
-            <!-- Section Header -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div class="space-y-2">
-                    <p class="section-label">Portfolio Highlights</p>
-                    <h2 class="text-3xl font-display font-bold text-ink-900">Dự Án Game Tiêu Biểu</h2>
-                </div>
-                <p class="text-ink-300 text-sm max-w-sm leading-relaxed">
-                    Tự thực hiện bằng Unity, tập trung vào cơ chế game, cân bằng độ khó và tối ưu trải nghiệm người
-                    chơi.
-                </p>
-            </div>
-
-            <!-- PROJECTS -->
-            <div class="space-y-8">
-
-                <!-- PROJECT 1: NINJA FROG ADVENTURE -->
-                <div class="project-card">
-                    <div class="grid md:grid-cols-12">
-
-                        <!-- Left: Info Panel -->
-                        <div
-                            class="md:col-span-4 p-8 border-b md:border-b-0 md:border-r border-surface-200 flex flex-col justify-between gap-6 bg-gradient-to-b from-white to-surface-50">
-                            <div class="space-y-4">
-                                <!-- Banner Preview -->
-                                <div onclick="openVideoModal('Video test game.mp4', 'NINJA FROG ADVENTURE — Gameplay Demo')"
-                                    class="relative rounded-2xl overflow-hidden cursor-pointer group/img border border-surface-200 shadow-sm"
-                                    style="aspect-ratio:16/9;">
-                                    <img src="ninjafrog.png" alt="Ninja Frog Adventure"
-                                        class="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent group-hover/img:from-black/40 transition-all">
-                                    </div>
-                                    <!-- Play Button -->
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-white/90 text-brand-600 flex items-center justify-center shadow-lg group-hover/img:scale-110 group-hover/img:bg-brand-500 group-hover/img:text-white transition-all duration-300">
-                                            <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
-                                        </div>
-                                    </div>
-                                    <div class="absolute bottom-2.5 left-2.5">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur text-white text-[11px] font-semibold">
-                                            <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Click to Watch
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <!-- Project Header -->
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-2">
-                                        <div
-                                            class="project-num bg-emerald-50 text-emerald-600 border border-emerald-200">
-                                            01</div>
-                                        <span class="text-[11px] font-bold text-emerald-600 uppercase tracking-wide">2D
-                                            Platformer</span>
-                                    </div>
-                                    <h3 class="text-xl font-display font-bold text-ink-900 leading-tight">Ninja Frog
-                                        Adventure</h3>
-                                    <p class="text-sm text-ink-300 leading-relaxed">
-                                        Game đi cảnh 2D linh hoạt — chiến đấu, vượt chướng ngại vật và boss battle đa
-                                        giai đoạn.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Tags & Actions -->
-                            <div class="space-y-4">
-                                <div class="space-y-2">
-                                    <p class="text-[10px] font-bold text-ink-200 uppercase tracking-wider">Trọng tâm
-                                        thiết kế</p>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        <span class="skill-badge">Level Progression</span>
-                                        <span class="skill-badge">Boss Battle Design</span>
-                                        <span class="skill-badge">UI Flow</span>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2 pt-2 border-t border-surface-200">
-                                    <a href="https://github.com/hieunguyen443387/Adventuregame.git" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="flex-1 px-3 py-2 rounded-lg bg-surface-100 hover:bg-surface-200 border border-surface-200 text-ink-500 hover:text-brand-600 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
-                                        <i data-lucide="github" class="w-3.5 h-3.5"></i> Source Code
-                                    </a>
-                                    <button
-                                        onclick="openVideoModal('Video test game.mp4', 'NINJA FROG ADVENTURE — Gameplay Demo')"
-                                        class="flex-1 px-3 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5 shadow-sm shadow-brand-500/30 cursor-pointer">
-                                        <i data-lucide="play" class="w-3.5 h-3.5"></i> Gameplay Demo
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right: Detail Panel -->
-                        <div class="md:col-span-8 p-8 flex flex-col justify-center">
-                            <h4 class="text-xs font-bold text-brand-500 uppercase tracking-widest mb-5 flex items-center gap-2">
-                                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                                <span>Game Design Case Study — Phân Tích &amp; Giải Pháp</span>
-                            </h4>
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 space-y-1.5 hover:border-brand-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="gamepad-2" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">1. Core Loop 2D Platformer</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Tối ưu nhịp độ di chuyển &amp; cảm giác va chạm. Kết hợp liền mạch giữa di chuyển linh hoạt, khám phá bí mật &amp; nhịp combat.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 space-y-1.5 hover:border-brand-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">2. Level Progression &amp; Hazards</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Thiết kế tiến trình màn chơi tịnh tiến (Sawtooth Curve), tính toán tầm nhìn camera để vị trí bẫy &amp; kẻ địch luôn công bằng.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 space-y-1.5 hover:border-brand-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-red-50 text-red-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="swords" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">3. Boss Battle Multiphase System</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Xây dựng trùm 3 phase với quy luật đòn đánh mở rộng, có hiệu ứng báo trước (Telegraphing) đòi hỏi quan sát &amp; phản xạ.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 space-y-1.5 hover:border-brand-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">4. Frictionless UI &amp; Replay Flow</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Triệt tiêu độ trễ khi chết/pause, nút Replay 1-click đưa người chơi trở lại trận đấu chỉ trong 0.2s giữ nguyên hưng phấn.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 space-y-1.5 hover:border-brand-300 transition-colors sm:col-span-2">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">5. Unity C# Prototyping &amp; Playtest Iteration</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Tự viết code C# hiện thực hóa cơ chế vật lý &amp; state machine, liên tục kiểm tra playtest cá nhân để tinh chỉnh độ nảy và tầm đánh.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- PROJECT 2: TRIPLE TILE MATCH -->
-                <div class="project-card">
-                    <div class="grid md:grid-cols-12">
-
-                        <div
-                            class="md:col-span-4 p-8 border-b md:border-b-0 md:border-r border-surface-200 flex flex-col justify-between gap-6 bg-gradient-to-b from-white to-surface-50">
-                            <div class="space-y-4">
-                                <!-- Visual container with Play Overlay -->
-                                <div onclick="openVideoModal('Test game tile match three.mp4', 'TRIPLE TILE MATCH — Gameplay Demo')"
-                                    class="relative rounded-2xl overflow-hidden cursor-pointer group/img border border-surface-200 shadow-sm bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-100 flex items-center justify-center"
-                                    style="aspect-ratio:16/9;">
-                                    <div class="text-center space-y-2">
-                                        <div
-                                            class="w-14 h-14 mx-auto rounded-2xl bg-violet-500/10 text-violet-600 flex items-center justify-center group-hover/img:scale-110 transition-transform">
-                                            <i data-lucide="grid-3x3" class="w-8 h-8"></i>
-                                        </div>
-                                        <p class="text-xs font-semibold text-violet-600">Triple Tile Match</p>
-                                    </div>
-                                    <!-- Play Overlay -->
-                                    <div
-                                        class="absolute inset-0 bg-black/20 group-hover/img:bg-black/35 transition-all flex items-center justify-center">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-white/90 text-violet-600 flex items-center justify-center shadow-lg group-hover/img:scale-110 group-hover/img:bg-violet-500 group-hover/img:text-white transition-all duration-300">
-                                            <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
-                                        </div>
-                                    </div>
-                                    <div class="absolute bottom-2.5 left-2.5">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur text-white text-[11px] font-semibold">
-                                            <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Click to Watch
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-2">
-                                        <div class="project-num bg-violet-50 text-violet-600 border border-violet-200">
-                                            02</div>
-                                        <span
-                                            class="text-[11px] font-bold text-violet-600 uppercase tracking-wide">Match-3
-                                            Puzzle / Casual</span>
-                                    </div>
-                                    <h3 class="text-xl font-display font-bold text-ink-900 leading-tight">Triple Tile
-                                        Match</h3>
-                                    <p class="text-sm text-ink-300 leading-relaxed">
-                                        Game ghép vật phẩm Casual tập trung vào quản lý khay chứa và chiến thuật lựa
-                                        chọn nước đi.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="space-y-4">
-                                <div class="space-y-2">
-                                    <p class="text-[10px] font-bold text-ink-200 uppercase tracking-wider">Trọng tâm
-                                        thiết kế</p>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        <span class="skill-badge">Tile Match Mechanics</span>
-                                        <span class="skill-badge">Time Pressure</span>
-                                        <span class="skill-badge">AutoPlay Tool</span>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2 pt-2 border-t border-surface-200">
-                                    <a href="https://github.com/hieunguyen443387/Project-Game-Match-Tile-Three.git"
-                                        target="_blank" rel="noopener noreferrer"
-                                        class="flex-1 px-3 py-2 rounded-lg bg-surface-100 hover:bg-surface-200 border border-surface-200 text-ink-500 hover:text-violet-600 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
-                                        <i data-lucide="github" class="w-3.5 h-3.5"></i> Source Code
-                                    </a>
-                                    <button
-                                        onclick="openVideoModal('Test game tile match three.mp4', 'TRIPLE TILE MATCH — Gameplay Demo')"
-                                        class="flex-1 px-3 py-2 rounded-lg bg-violet-500 hover:bg-violet-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5 shadow-sm shadow-violet-500/30 cursor-pointer">
-                                        <i data-lucide="play" class="w-3.5 h-3.5"></i> Gameplay Demo
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="md:col-span-8 p-8 flex flex-col justify-center">
-                            <h4 class="text-xs font-bold text-violet-500 uppercase tracking-widest mb-5 flex items-center gap-2">
-                                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                                <span>Game Design Case Study — Phân Tích &amp; Giải Pháp</span>
-                            </h4>
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-violet-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="boxes" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">1. Spatial Tray Mechanics</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Cơ chế giới hạn khay 7 ô chứa item. Tạo thử thách suy tính thứ tự chọn ô &amp; quản lý rủi ro tràn khay chứa.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-violet-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="timer" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">2. Time Pressure &amp; Pacing</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Áp lực đếm ngược thời gian kích thích người chơi ra quyết định nhanh, tạo sự hồi hộp &amp; thôi thúc hành động Replay.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-violet-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="bot" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">3. AutoPlay AI Testing Bot</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Lập trình bot tự động chạy 1,000+ lượt chơi mô phỏng, thống kê tỷ lệ thắng (Win Rate) để tự động hóa cân bằng đố.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-violet-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">4. Sensory Match Juice</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Phản hồi hiệu ứng nảy mượt (Squash/Stretch) &amp; nổ item trực quan tạo sự thỏa mãn giác quan (Satisfaction feel).</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-violet-300 transition-colors sm:col-span-2">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">5. Level Balancing &amp; Item Placement Matrix</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Điều chỉnh tỷ lệ item ẩn/hiển thị theo các lớp xếp chồng, kiểm soát độ bế tắc (Stuck Rate) dựa trên kết quả thống kê bot AI.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PROJECT 3: GAME 2048 -->
-                <div class="project-card">
-                    <div class="grid md:grid-cols-12">
-
-                        <div
-                            class="md:col-span-4 p-8 border-b md:border-b-0 md:border-r border-surface-200 flex flex-col justify-between gap-6 bg-gradient-to-b from-white to-surface-50">
-                            <div class="space-y-4">
-                                <!-- Visual container with Play Overlay -->
-                                <div onclick="openVideoModal('Test game 2048.mp4', 'GAME 2048 — Gameplay Demo')"
-                                    class="relative rounded-2xl overflow-hidden cursor-pointer group/img border border-surface-200 shadow-sm bg-gradient-to-br from-cyan-50 via-teal-50 to-sky-100 flex items-center justify-center"
-                                    style="aspect-ratio:16/9;">
-                                    <!-- Mini 2048 visual -->
-                                    <div class="grid grid-cols-4 gap-1 p-3">
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-cyan-200/60 flex items-center justify-center text-[9px] font-bold text-cyan-700">
-                                            2</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-cyan-300/60 flex items-center justify-center text-[9px] font-bold text-cyan-800">
-                                            4</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-brand-200/60 flex items-center justify-center text-[9px] font-bold text-brand-800">
-                                            8</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-brand-300/60 flex items-center justify-center text-[9px] font-bold text-brand-900">
-                                            16</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-teal-100/60 flex items-center justify-center text-[9px] font-bold text-teal-700">
-                                            2</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-brand-400/30 flex items-center justify-center text-[9px] font-bold text-brand-700">
-                                            32</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-cyan-100/60 flex items-center justify-center text-[9px] font-bold text-cyan-600">
-                                            4</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-brand-500/20 flex items-center justify-center text-[9px] font-bold text-brand-700">
-                                            64</div>
-                                        <div class="w-7 h-7 rounded-md bg-surface-100/60"></div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-cyan-200/60 flex items-center justify-center text-[9px] font-bold text-cyan-700">
-                                            2</div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-brand-300/40 flex items-center justify-center text-[9px] font-bold text-brand-700">
-                                            128</div>
-                                        <div class="w-7 h-7 rounded-md bg-surface-100/60"></div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-cyan-100/60 flex items-center justify-center text-[9px] font-bold text-cyan-600">
-                                            2</div>
-                                        <div class="w-7 h-7 rounded-md bg-surface-100/60"></div>
-                                        <div
-                                            class="w-7 h-7 rounded-md bg-brand-400/20 flex items-center justify-center text-[9px] font-bold text-brand-600">
-                                            256</div>
-                                        <div class="w-7 h-7 rounded-md bg-surface-100/60"></div>
-                                    </div>
-                                    <!-- Play Overlay -->
-                                    <div
-                                        class="absolute inset-0 bg-black/20 group-hover/img:bg-black/35 transition-all flex items-center justify-center">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-white/90 text-cyan-600 flex items-center justify-center shadow-lg group-hover/img:scale-110 group-hover/img:bg-cyan-500 group-hover/img:text-white transition-all duration-300">
-                                            <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
-                                        </div>
-                                    </div>
-                                    <div class="absolute bottom-2.5 left-2.5">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur text-white text-[11px] font-semibold">
-                                            <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Click to Watch
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-2">
-                                        <div class="project-num bg-cyan-50 text-cyan-600 border border-cyan-200">03
-                                        </div>
-                                        <span class="text-[11px] font-bold text-cyan-600 uppercase tracking-wide">Puzzle
-                                            / Casual Game</span>
-                                    </div>
-                                    <h3 class="text-xl font-display font-bold text-ink-900 leading-tight">Game 2048</h3>
-                                    <p class="text-sm text-ink-300 leading-relaxed">
-                                        Thiết kế lại game giải đố cổ điển với phong cách Minimalism và phản hồi trực
-                                        quan.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="space-y-4">
-                                <div class="space-y-2">
-                                    <p class="text-[10px] font-bold text-ink-200 uppercase tracking-wider">Trọng tâm
-                                        thiết kế</p>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        <span class="skill-badge">Slide &amp; Merge Logic</span>
-                                        <span class="skill-badge">Minimalist UI</span>
-                                        <span class="skill-badge">Input Response</span>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2 pt-2 border-t border-surface-200">
-                                    <a href="https://github.com/hieunguyen443387/Project-Game-2048.git" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="flex-1 px-3 py-2 rounded-lg bg-surface-100 hover:bg-surface-200 border border-surface-200 text-ink-500 hover:text-cyan-600 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
-                                        <i data-lucide="github" class="w-3.5 h-3.5"></i> Source Code
-                                    </a>
-                                    <button onclick="openVideoModal('Test game 2048.mp4', 'GAME 2048 — Gameplay Demo')"
-                                        class="flex-1 px-3 py-2 rounded-lg bg-brand-accent hover:bg-cyan-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5 shadow-sm shadow-cyan-500/30 cursor-pointer">
-                                        <i data-lucide="play" class="w-3.5 h-3.5"></i> Gameplay Demo
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="md:col-span-8 p-8 flex flex-col justify-center">
-                            <h4 class="text-xs font-bold text-brand-accent uppercase tracking-widest mb-5 flex items-center gap-2">
-                                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                                <span>Game Design Case Study — Phân Tích &amp; Giải Pháp</span>
-                            </h4>
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-cyan-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="move" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">1. Slide &amp; Merge Core Logic</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Cơ chế trượt &amp; sáp nhập các ô số cùng giá trị, tính toán thuật toán di chuyển ô mượt mà không bị kẹt lặp.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-cyan-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="layout" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">2. Minimalist Casual Ergonomics</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Giao diện tối giản theo hướng casual game, triệt tiêu chi tiết thừa giúp người chơi tập trung 100% vào màn chơi giải đố.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-cyan-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">3. Tile Spawner &amp; Board Pacing</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Điều chỉnh nhịp độ qua thuật toán sinh ô ngẫu nhiên (90% ô 2, 10% ô 4), thách thức chiến thuật xếp ô trong bàn 4x4.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-cyan-300 transition-colors">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">4. Animation Juice &amp; Swipe Speed</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Hiệu ứng co giãn khi trượt sáp nhập &amp; tối ưu độ trễ thao tác vuốt (swipe latency < 50ms) mang lại cảm giác phản hồi cực nhạy.</p>
-                                </div>
-                                <div
-                                    class="bg-surface-50 border border-surface-200 rounded-xl p-4 hover:border-cyan-300 transition-colors sm:col-span-2">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div
-                                            class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-xs font-bold text-ink-700">5. Playtest &amp; Feel Tuning</span>
-                                    </div>
-                                    <p class="text-xs text-ink-300 leading-relaxed">Playtest liên tục để đánh giá nhịp độ game khi điểm số tăng cao, tinh chỉnh màu sắc ô số tăng tính phân biệt trực quan.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- GAME DESIGN PHILOSOPHY -->
-    <section id="philosophy" class="py-20 bg-white border-t border-surface-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-            <div class="text-center space-y-3 max-w-2xl mx-auto">
-                <p class="section-label">My Game Design Mindset</p>
-                <h2 class="text-3xl font-display font-bold text-ink-900">Tư Duy & Điểm Mạnh Phù Hợp</h2>
-                <p class="text-ink-300 text-sm">3 trụ cột giúp tôi tự tin đóng góp giá trị ngay cho đội ngũ làm game.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-7 space-y-4 card-hover hover:border-brand-300 text-center group">
-                    <div
-                        class="w-14 h-14 rounded-2xl bg-brand-500 text-white flex items-center justify-center mx-auto shadow-sm shadow-brand-500/25 group-hover:scale-105 transition-transform">
-                        <i data-lucide="line-chart" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-lg font-display font-bold text-ink-900">Phân Tích Gameplay</h3>
-                    <p class="text-sm text-ink-300 leading-relaxed">
-                        Thường xuyên nghiên cứu, bóc tách gameplay loop của các tựa game Puzzle/Casual để học hỏi cách
-                        giữ chân người chơi (retention) và tạo động lực chơi tiếp.
-                    </p>
-                </div>
-
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-7 space-y-4 card-hover hover:border-violet-300 text-center group">
-                    <div
-                        class="w-14 h-14 rounded-2xl bg-violet-500 text-white flex items-center justify-center mx-auto shadow-sm shadow-violet-500/25 group-hover:scale-105 transition-transform">
-                        <i data-lucide="lightbulb" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-lg font-display font-bold text-ink-900">Tư Duy Sáng Tạo</h3>
-                    <p class="text-sm text-ink-300 leading-relaxed">
-                        Đề xuất cơ chế gameplay mới lạ, kết hợp các thể loại quen thuộc thành trải nghiệm giải đố độc
-                        đáo nhưng dễ tiếp cận với người chơi phổ thông.
-                    </p>
-                </div>
-
-                <div
-                    class="bg-surface-50 border border-surface-200 rounded-2xl p-7 space-y-4 card-hover hover:border-brand-accent/50 text-center group">
-                    <div
-                        class="w-14 h-14 rounded-2xl bg-brand-accent text-white flex items-center justify-center mx-auto shadow-sm shadow-cyan-500/25 group-hover:scale-105 transition-transform">
-                        <i data-lucide="shield-check" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-lg font-display font-bold text-ink-900">Cam Kết Làm Việc</h3>
-                    <p class="text-sm text-ink-300 leading-relaxed">
-                        Đảm bảo 25–30+ giờ/tuần. Sẵn sàng on-site Hà Nội, trao đổi sâu sát cùng Dev & Artist để hiện
-                        thực hóa ý tưởng và đưa sản phẩm đến tay người chơi.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="py-20 bg-surface-50 border-t border-surface-200 relative overflow-hidden">
-        <div
-            class="absolute inset-0 bg-gradient-to-br from-brand-50 via-transparent to-violet-50/30 pointer-events-none">
-        </div>
-        <div class="max-w-4xl mx-auto px-4 text-center space-y-8 relative z-10">
-
-            <div class="space-y-3">
-                <p class="section-label">Get In Touch</p>
-                <h2 class="text-3xl sm:text-4xl font-display font-bold text-ink-900">Sẵn Sàng Cho Vị Trí Intern Game
-                    Designer</h2>
-                <p class="text-ink-300 text-sm max-w-lg mx-auto leading-relaxed">
-                    Tôi luôn sẵn sàng học hỏi, lăn xả cùng dự án và đóng góp tư duy thiết kế game sáng tạo cho đội ngũ
-                    của bạn. Hãy kết nối với tôi!
-                </p>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-4 pt-2">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hieeunguyen1909@gmail.com" target="_blank"
-                    rel="noopener noreferrer"
-                    class="px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-semibold flex items-center space-x-2 transition-all hover:-translate-y-0.5 shadow-sm shadow-brand-500/25">
-                    <i data-lucide="mail" class="w-4 h-4"></i>
-                    <span>Gmail: hieeunguyen1909@gmail.com</span>
-                </a>
-                <a href="tel:0942302635"
-                    class="px-6 py-3 rounded-xl bg-white border border-surface-200 hover:border-brand-300 text-ink-700 font-semibold flex items-center space-x-2 transition-all hover:-translate-y-0.5 shadow-sm">
-                    <i data-lucide="phone" class="w-4 h-4 text-brand-500"></i>
-                    <span>094 230 2635</span>
-                </a>
-            </div>
-
-            <div
-                class="pt-10 text-xs text-ink-200 border-t border-surface-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="mt-16 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-ink-400">
                 <p>© 2026 Nguyễn Trung Hiếu — Game Design Portfolio</p>
-                <div class="flex items-center space-x-4">
-                    <span>Hà Nội, Việt Nam</span>
-                    <span>·</span>
-                    <span>GitHub: hieunguyen443387</span>
-                </div>
+                <p>Hà Nội, Việt Nam</p>
             </div>
         </div>
-    </section>
+    </footer>
 
-    <!-- SKILL DEEP-DIVE CASE STUDY MODAL -->
-    <div id="skill-modal"
-        class="fixed inset-0 z-50 hidden items-center justify-center bg-ink-900/70 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-200"
-        onclick="handleSkillModalBackdropClick(event)" style="display:none;">
+    <!-- ============ SKILL CASE STUDY MODAL ============ -->
+    <div id="skill-modal" class="modal modal-hidden fixed inset-0 z-50 items-center justify-center bg-ink-900/70 backdrop-blur-sm p-4"
+        style="display:none" onclick="handleSkillModalBackdropClick(event)">
         <div id="skill-modal-content"
-            class="modal-box relative w-full max-w-3xl bg-white border border-surface-200 rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-surface-200 bg-surface-50 shrink-0">
-                <div class="flex items-center space-x-3">
-                    <div id="skill-modal-icon-bg" class="w-8 h-8 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-xs">
-                        <i id="skill-modal-icon" data-lucide="file-text" class="w-4 h-4"></i>
-                    </div>
+            class="modal-box relative w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl max-h-[88vh] flex flex-col">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div id="skill-modal-icon-bg" class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center"></div>
                     <div>
-                        <h3 id="skill-modal-title" class="text-base font-display font-bold text-ink-900 leading-tight">Case Study Title</h3>
-                        <p id="skill-modal-subtitle" class="text-xs text-brand-600 font-semibold">Game Design Competency Deep-Dive</p>
+                        <h3 id="skill-modal-title" class="font-display text-base font-bold text-ink-900 leading-tight"></h3>
+                        <p class="text-[11px] text-brand-700 font-semibold">Case study · Game Design</p>
                     </div>
                 </div>
                 <button onclick="closeSkillModal()"
-                    class="w-8 h-8 rounded-full bg-surface-100 hover:bg-red-50 text-ink-400 hover:text-red-500 border border-surface-200 hover:border-red-200 flex items-center justify-center transition-all duration-200 cursor-pointer">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
+                    class="w-8 h-8 rounded-full hover:bg-slate-100 text-ink-400 hover:text-red-500 flex items-center justify-center"
+                    aria-label="Đóng"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
 
-            <!-- Modal Body (Scrollable) -->
-            <div class="p-6 overflow-y-auto space-y-6 text-xs text-ink-700">
-                <!-- Section 1: Challenge -->
-                <div class="bg-amber-50/60 border border-amber-200/80 rounded-xl p-4 space-y-1.5">
-                    <div class="flex items-center gap-2 text-amber-800 font-bold uppercase tracking-wider text-[10px]">
-                        <i data-lucide="target" class="w-3.5 h-3.5 text-amber-600"></i>
-                        <span>1. Thách Thức &amp; Bài Toán Thiết Kế (Design Challenge)</span>
-                    </div>
-                    <p id="skill-modal-challenge" class="text-ink-500 leading-relaxed">Explanation of challenge</p>
+            <div class="p-6 md:p-7 overflow-y-auto space-y-6 text-[13px] text-ink-600">
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[.14em] text-amber-700">1. Thách thức thiết kế</p>
+                    <p id="skill-modal-challenge" class="mt-2 leading-relaxed"></p>
                 </div>
-
-                <!-- Section 2: Action & Methodology -->
-                <div class="space-y-3">
-                    <div class="flex items-center gap-2 text-ink-900 font-bold uppercase tracking-wider text-[10px] border-b border-surface-200 pb-2">
-                        <i data-lucide="cpu" class="w-3.5 h-3.5 text-brand-500"></i>
-                        <span>2. Tư Duy &amp; Phương Pháp Giải Quyết (Design Action &amp; Methodology)</span>
-                    </div>
-                    <div id="skill-modal-methodology" class="space-y-2.5">
-                        <!-- Dynamic content inserted by JS -->
-                    </div>
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[.14em] text-brand-700 border-b border-slate-200 pb-2">2. Cách tiếp cận</p>
+                    <div id="skill-modal-methodology" class="mt-3 space-y-3"></div>
                 </div>
-
-                <!-- Section 3: Deliverables & Tools -->
-                <div class="bg-surface-50 border border-surface-200 rounded-xl p-4 space-y-2">
-                    <div class="flex items-center gap-2 text-ink-900 font-bold uppercase tracking-wider text-[10px]">
-                        <i data-lucide="folder-check" class="w-3.5 h-3.5 text-violet-500"></i>
-                        <span>3. Công Cụ &amp; Sản Phẩm Bàn Giao (Deliverables &amp; Output)</span>
-                    </div>
-                    <div id="skill-modal-deliverables" class="flex flex-wrap gap-2 pt-1">
-                        <!-- Badges inserted by JS -->
-                    </div>
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[.14em] text-ink-500">3. Công cụ &amp; sản phẩm bàn giao</p>
+                    <div id="skill-modal-deliverables" class="mt-3 flex flex-wrap gap-2"></div>
                 </div>
-
-                <!-- Section 4: Result & Impact -->
-                <div class="bg-emerald-50/60 border border-emerald-200/80 rounded-xl p-4 space-y-1.5">
-                    <div class="flex items-center gap-2 text-emerald-800 font-bold uppercase tracking-wider text-[10px]">
-                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        <span>4. Kết Quả Trải Nghiệm &amp; Bài Học (Outcome &amp; Player Impact)</span>
-                    </div>
-                    <p id="skill-modal-outcome" class="text-ink-500 leading-relaxed">Impact explanation</p>
+                <div class="border-t border-slate-200 pt-4">
+                    <p class="text-[10px] font-bold uppercase tracking-[.14em] text-emerald-700">4. Kết quả &amp; bài học</p>
+                    <p id="skill-modal-outcome" class="mt-2 leading-relaxed"></p>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="px-6 py-3 border-t border-surface-200 bg-surface-50 flex justify-end shrink-0">
+            <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end shrink-0">
                 <button onclick="closeSkillModal()"
-                    class="px-4 py-2 rounded-xl bg-ink-900 hover:bg-ink-700 text-white font-bold text-xs transition-colors cursor-pointer">
-                    Đóng Case Study
+                    class="px-4 py-2 rounded-lg bg-ink-900 hover:bg-ink-700 text-white font-bold text-xs transition-colors">
+                    Đóng case study
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- GAMEPLAY VIDEO MODAL -->
+    <!-- ============ VIDEO MODAL (CAROUSEL BĂNG CHUYỀN NGANG) ============ -->
     <div id="video-modal"
-        class="fixed inset-0 z-50 hidden items-center justify-center bg-ink-900/70 backdrop-blur-sm p-4 opacity-0"
-        onclick="handleModalBackdropClick(event)" style="display:none;">
+        class="modal modal-hidden fixed inset-0 z-50 items-center justify-center bg-ink-900/75 backdrop-blur-sm p-4"
+        style="display:none" onclick="handleModalBackdropClick(event)">
         <div id="video-modal-content"
-            class="modal-box relative w-full max-w-4xl bg-white border border-surface-200 rounded-2xl overflow-hidden shadow-2xl">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-surface-200">
-                <div class="flex items-center space-x-3">
-                    <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
-                    <h3 id="modal-video-title" class="text-sm font-display font-bold text-ink-900">Gameplay Demo</h3>
-                    <span
-                        class="px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-600 border border-brand-200 text-[10px] font-bold uppercase tracking-wider">HD
-                        Preview</span>
+            class="modal-box relative w-full max-w-4xl bg-white rounded-2xl overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse flex-shrink-0"></span>
+                    <h3 id="modal-video-title" class="font-display text-sm font-bold text-ink-900 truncate">Gameplay Demo</h3>
+                    <span id="modal-video-counter"
+                        class="hidden px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 text-[11px] font-bold flex-shrink-0">
+                        1 / 2
+                    </span>
                 </div>
-                <button onclick="closeVideoModal()"
-                    class="w-8 h-8 rounded-full bg-surface-100 hover:bg-red-50 text-ink-400 hover:text-red-500 border border-surface-200 hover:border-red-200 flex items-center justify-center transition-all duration-200 cursor-pointer">
-                    <i data-lucide="x" class="w-4 h-4"></i>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <div id="modal-video-nav" class="hidden items-center gap-1.5 mr-2">
+                        <button onclick="prevModalVideo()"
+                            class="w-8 h-8 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 text-ink-600 hover:text-brand-700 flex items-center justify-center transition-colors"
+                            aria-label="Video trước" title="Video trước (←)">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="nextModalVideo()"
+                            class="w-8 h-8 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 text-ink-600 hover:text-brand-700 flex items-center justify-center transition-colors"
+                            aria-label="Video tiếp theo" title="Video tiếp theo (→)">
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <button onclick="closeVideoModal()"
+                        class="w-8 h-8 rounded-full hover:bg-slate-100 text-ink-400 hover:text-red-500 flex items-center justify-center"
+                        aria-label="Đóng"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+
+            <!-- Khung băng chuyền trượt ngang (Carousel Track) -->
+            <div class="relative w-full bg-ink-900 overflow-hidden">
+                <div id="modal-video-track"
+                    class="flex transition-transform duration-500 ease-out will-change-transform">
+                    <!-- Các slide video sẽ được render động tại đây -->
+                </div>
+
+                <!-- Nút mũi tên nổi hai bên khung video -->
+                <button id="modal-video-prev-overlay" onclick="prevModalVideo()"
+                    class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-black/65 hover:bg-brand-600 text-white backdrop-blur-sm items-center justify-center shadow-lg transition-all cursor-pointer"
+                    aria-label="Video trước" title="Video trước">
+                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                </button>
+                <button id="modal-video-next-overlay" onclick="nextModalVideo()"
+                    class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-black/65 hover:bg-brand-600 text-white backdrop-blur-sm items-center justify-center shadow-lg transition-all cursor-pointer"
+                    aria-label="Video tiếp theo" title="Video tiếp theo">
+                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
                 </button>
             </div>
-            <!-- Video Player -->
-            <div class="aspect-video w-full bg-ink-900">
-                <video id="modal-video-player" controls preload="metadata" class="w-full h-full object-contain">
-                    <source id="modal-video-source" src="" type="video/mp4">
-                    Trình duyệt của bạn không hỗ trợ phát video HTML5.
-                </video>
+
+            <!-- Thanh chọn nhanh từng video ở đáy modal (khi có >= 2 video) -->
+            <div id="modal-video-dots"
+                class="hidden px-6 py-3 bg-slate-50 border-t border-slate-200 items-center justify-center gap-2.5 flex-wrap">
             </div>
         </div>
     </div>
 
-    <!-- JS Scripts -->
+    <!-- ============ SCRIPTS ============ -->
     <script>
         lucide.createIcons();
 
-        // Mobile Nav
+        // Mobile menu
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-        // SKILL CASE STUDY DATA
+        // Scroll reveal
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObserver.unobserve(e.target); } });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Nav scroll-spy
+        const navLinks = [...document.querySelectorAll('[data-nav]')];
+        const sections = ['about', 'skills', 'projects', 'contact'].map(id => document.getElementById(id));
+        const spy = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+        sections.forEach(s => s && spy.observe(s));
+
+        // ---- Skill case study data ----
         const skillDetailsData = {
             gameplay: {
-                title: "Core Gameplay & Systems Design",
-                subtitle: "Vòng lặp Core, Hệ thống Phần thưởng & Sự tương tác Cơ chế",
-                icon: "gamepad-2",
-                iconBg: "bg-brand-500",
-                challenge: "Tạo ra vòng lặp gameplay đủ chiều sâu để giữ chân người chơi (Retention), tránh tình trạng lặp lại đơn điệu và thiết kế cơ chế phản hồi rõ ràng giữa người chơi & thử thách trong game.",
+                title: 'Core Gameplay & Systems',
+                icon: 'gamepad-2', iconBg: 'bg-brand-600',
+                challenge: 'Làm thế nào để một cơ chế tưởng tượng đơn giản trở thành vòng lặp đủ chiều sâu, người chơi không bị lặp lại sau vài phút?',
                 methodology: [
-                    { title: "Vòng Lặp Core (Core Action Loop)", desc: "Xây dựng luồng Thao tác (Action) → Phản hồi tức thì (Immediate Feedback) → Phần thưởng tích lũy (Reward/Progression). Đảm bảo mỗi thao tác nhỏ đều tạo ra sự kích thích cho người chơi." },
-                    { title: "Tương Tác Cơ Chế (Mechanics Synergy)", desc: "Trong 2D Platformer Ninja Frog: Kết hợp nhịp nhảy, tầm lướt và đòn đánh dựa trên vị trí di chuyển của Boss theo từng phase. Trong Triple Tile Match: Cân bằng giữa chọn item hiển thị & nguy cơ tràn khay chứa." },
-                    { title: "Cơ Chế Khảo Sát Thử Thách", desc: "Phân tích tâm lý người chơi khi đối mặt thử thách khó, thiết kế các mốc phần thưởng nhỏ (Micro-rewards) giúp duy trì sự hưng phấn." }
+                    { title: 'Vòng lặp Action → Feedback → Reward', desc: 'Mỗi thao tác đều có phản hồi tức thì và phần thưởng tích lũy. Với Block Dash 2D: chọn block → trượt theo hướng → mở đường cho block khác → clear bàn.' },
+                    { title: 'Tương tác cơ chế', desc: 'Ninja Frog: nhịp nhảy và tầm đánh được căn theo phase của boss. Popit Block Jam: linh hoạt thay thế các cơ chế chưa hỗ trợ bằng cơ chế tương thích để giữ độ hấp dẫn.' },
+                    { title: 'Kiểm soát deadlock', desc: 'Phân tích nước đi để loại bỏ thế kẹt vô nghiệm nhưng vẫn giữ mức độ thử thách cần thiết.' }
                 ],
-                deliverables: ["Tài liệu GDD Specification", "State Machine Diagram", "Matrix Cân bằng Sát thương / Khay chứa", "Unity Playable Concept"],
-                outcome: "Tăng tính linh hoạt cho gameplay, giúp người chơi tự định hình chiến thuật cá nhân và nâng cao độ kiên nhẫn khi chinh phục các thử thách cấp độ cao."
+                deliverables: ['GDD Specification', 'State Machine Diagram', 'Ma trận tương tác cơ chế', 'Unity Playable Prototype'],
+                outcome: 'Người chơi tự hình thành chiến thuật riêng; gameplay có chiều sâu mà vẫn dễ hiểu trong vài giây đầu.'
             },
             level: {
-                title: "Level Architecture & Pacing Design",
-                subtitle: "Thiết kế Không gian Màn chơi & Mô hình Đường cong Độ khó Sawtooth",
-                icon: "layers",
-                iconBg: "bg-violet-500",
-                challenge: "Ngăn ngừa việc người chơi bị ngợp (Overwhelmed) ở màn khó hoặc nhàm chán (Boredom) ở màn dễ. Kiểm soát nhịp độ phân bổ chướng ngại vật & phần thưởng mượt mà.",
+                title: 'Level Architecture & Pacing',
+                icon: 'layers', iconBg: 'bg-violet-600',
+                challenge: 'Tránh hai cực đoan: người chơi ngợp ở màn khó hoặc nhàm chán ở màn dễ. Làm sao phân bổ thử thách theo một nhịp có chủ đích?',
                 methodology: [
-                    { title: "Mô Hình Sawtooth Difficulty Curve", desc: "Thiết kế nhịp độ theo mô hình hình răng cưa: Giới thiệu yếu tố mới (Tutorial) → Thực hành kỹ năng (Ramp up) → Thử thách đỉnh điểm (Boss Peak) → Nghỉ ngơi & Nạp năng lượng (Rest Phase)." },
-                    { title: "Bố Trí Không Gian & Phản Xạ (Spatial Layout)", desc: "Phân tầng kẻ địch & bẫy dựa trên khoảng cách camera và tốc độ di chuyển của nhân vật, cho phép người chơi có đủ thời gian đọc tình huống (Telegraphing)." },
-                    { title: "Phân Cấp Tiến Trình Màn Chơi", desc: "Tính toán chính xác vị trí Checkpoint và vật phẩm hồi phục để người chơi không bị phạt quá nặng khi mắc sai lầm." }
+                    { title: 'Choke point & lối giải', desc: 'Trong Block Dash 2D và Popit Block Jam, bố trí điểm nghẽn, cổng một chiều và 6+ loại block để tạo thế kẹt — sau đó truy đi tìm lối giải, đảm bảo tính khả thi.' },
+                    { title: 'Difficulty ramp', desc: 'Đường cong răng cưa: giới thiệu cơ chế → luyện tập → đỉnh thử thách → nghỉ ngơi. Áp dụng cho cả platformer lẫn puzzle casual.' },
+                    { title: 'Spatial & telegraphing', desc: 'Căn vị trí bẫy/kẻ địch với tầm nhìn camera và tốc độ nhân vật; boss báo trước bằng Animation Event để người chơi kịp đọc tình huống.' }
                 ],
-                deliverables: ["Level Grid Layout Map", "Pacing & Difficulty Curve Matrix", "Hazard Placement Map", "Tilemap Unity Setup"],
-                outcome: "Duy trì trạng thái 'Flow State' liên tục cho người chơi, giảm tỷ lệ bỏ dở màn chơi (Drop-off rate) và nâng cao giá trị chơi lại (Replayability)."
+                deliverables: ['Level Grid Map', 'Pacing Curve', 'Hazard Placement Map', 'Level JSON (tool xuất)'],
+                outcome: 'Duy trì trạng thái flow, giảm tỷ lệ bỏ cuộc và tăng động lực chơi lại.'
             },
             gamefeel: {
-                title: "Game Feel, UX & Juice Optimization",
-                subtitle: "Trải nghiệm Giác quan, Tối ưu Phản hồi & UX Ergonomics",
-                icon: "sparkles",
-                iconBg: "bg-brand-accent",
-                challenge: "Game dù có cơ chế hay nhưng thiếu phản hồi giác quan (Sensory Feedback) sẽ tạo cảm giác 'khô cứng', giảm sự hứng thú khi tương tác.",
+                title: 'Game Feel & UX',
+                icon: 'sparkles', iconBg: 'bg-brand-500',
+                challenge: 'Cơ chế hay nhưng thiếu phản hồi giác quan sẽ tạo cảm giác "khô cứng". Làm sao để mỗi cú chạm đều đã?',
                 methodology: [
-                    { title: "Kỹ Thuật 'Juice' Đa Giác Quan", desc: "Áp dụng Squash & Stretch khi ô số/tile va chạm, Hitstop (khựng lực 0.05s) khi Ninja Frog chém trúng quái, kết hợp Rung màn hình (Camera Shake) và Particle explosion khi Match-3." },
-                    { title: "Luồng UI Không Gián Đoạn (Frictionless Flow)", desc: "Triệt tiêu các bước trung gian thừa. Màn hình Game Over / Replay hoạt động tức thì trong 0.2s với 1-click restart, giữ nguyên cảm xúc muốn phục thù của người chơi." },
-                    { title: "Trực Quan Hóa Thông Tin (UI Ergonomics)", desc: "Thiết kế UI tối giản kiểu Casual, các chỉ số quan trọng (Máu, Thời gian, Khay chứa) luôn nằm trong vùng quan sát tự nhiên của mắt." }
+                    { title: 'Juice đa giác quan', desc: 'Hiệu ứng trượt mượt trên lưới, hitstop khi Ninja Frog chém trúng, camera shake — những hiệu ứng 0.05–0.1s quyết định cảm giác.' },
+                    { title: 'Camera & checkpoint', desc: 'Ngắt Cinemachine Follow lúc nhân vật chết để camera rơi cùng, rồi snap về checkpoint — biến thất bại thành một khoảnh khắc có cảm xúc.' },
+                    { title: 'UI không gián đoạn', desc: 'Khóa input 0.1s khớp animation, WASD lẫn mũi tên, trễ 1s rồi fade màn thua; Continue/Replay dựa trên dữ liệu save thực tế.' }
                 ],
-                deliverables: ["Sensory Feedback Guidelines", "Animation Easing Curves", "UX UI Flow Chart", "Unity Particle Prefabs"],
-                outcome: "Mang lại cảm giác cực kỳ thỏa mãn (Satisfaction Feel) trên từng thao tác chạm/click, nâng cao tính trực quan và gắn kết cảm xúc của người chơi."
+                deliverables: ['Sensory Feedback Guideline', 'Animation Easing', 'UX Flow Chart', 'Unity Prefabs'],
+                outcome: 'Thao tác nào cũng có trọng lượng; người chơi cảm nhận rõ mình vừa làm được gì.'
             },
             technical: {
-                title: "Technical Prototyping & Auto Balancing Bot",
-                subtitle: "Hiện thực hóa Ý tưởng Unity C# & Lập trình AI Testing Bot",
-                icon: "bot",
-                iconBg: "bg-amber-500",
-                challenge: "Cân bằng độ khó hàng chục level đố bằng thủ công tốn rất nhiều thời gian, dễ mang tính chủ quan và khó phát hiện điểm tắc nghẽn (Bottlenecks).",
+                title: 'Tooling & Data-driven Workflow',
+                icon: 'wrench', iconBg: 'bg-amber-600',
+                challenge: 'Xếp và chỉnh sửa hàng chục level bằng tay vừa chậm vừa dễ sai sót, và designer phải phụ thuộc dev mỗi lần cập nhật dữ liệu.',
                 methodology: [
-                    { title: "Rapid Unity C# Prototyping", desc: "Xây dựng các prototype độc lập nhanh chóng bằng Unity C# để trực tiếp test tính khả thi của ý tưởng trước khi đưa vào sản xuất chính thức." },
-                    { title: "Lập Trình AutoPlay Testing Bot", desc: "Viết thuật toán AI Solver tự động chọn nước đi ngẫu nhiên & thông minh cho Triple Tile Match, chạy mô phỏng hàng ngàn lượt chơi chỉ trong vài phút." },
-                    { title: "Thống Kê & Cân Bằng Dựa Trên Dữ Liệu", desc: "Trích xuất tỷ lệ thắng (Win Rate), thời gian hoàn thành trung bình và các bước đi bị kẹt để điều chỉnh số lượng Tile & giới hạn thời gian chính xác." }
+                    { title: 'Editor tool trong Unity (MapSaver / MapLoader)', desc: 'Custom Inspector quét scene xuất cấu hình bàn cờ, viền, cổng và từng block (tọa độ lưới, hướng, trạng thái băng/bom) thành file JSON; load lại từ palette prefab, tự nhận diện level cao nhất và có nút Load/Restart ngay trong Setting Panel.' },
+                    { title: 'Kiến trúc data-driven (ScriptableObject)', desc: 'TileState ScriptableObject (2048) tách bạch Model-Controller-View-Data, cho phép designer tạo cấp số/bảng màu mới không đụng code.' },
+                    { title: 'Tối ưu Level Streaming & Save JSON', desc: 'Chia map chunk 64 tile & bật/tắt nội dung theo khoảng cách 25 units (Ninja Frog); lưu JSON theo từng enemy ID và session level.' }
                 ],
-                deliverables: ["AutoPlay Bot Script (Unity C#)", "Automated Balance Report", "Unity Rapid Prototype Build", "Technical Architecture Doc"],
-                outcome: "Rút ngắn 80% thời gian cân bằng level, loại bỏ tính chủ quan và đảm bảo độ khó thực tế của từng màn chơi luôn khớp với thiết kế."
+                deliverables: ['Unity Editor Tool (MapSaver/MapLoader)', 'Level JSON Schema', 'ScriptableObject Data', 'Save/Load System'],
+                outcome: 'Rút ngắn đáng kể vòng lặp design → playtest; quy trình sản xuất level chủ động và ít lỗi.'
             }
         };
 
-        // OPEN SKILL MODAL
-        function openSkillModal(skillKey) {
-            const data = skillDetailsData[skillKey];
+        function openSkillModal(key) {
+            const data = skillDetailsData[key];
             if (!data) return;
-
             const modal = document.getElementById('skill-modal');
             const content = document.getElementById('skill-modal-content');
             const iconBg = document.getElementById('skill-modal-icon-bg');
-            const icon = document.getElementById('skill-modal-icon');
-            const title = document.getElementById('skill-modal-title');
-            const subtitle = document.getElementById('skill-modal-subtitle');
-            const challenge = document.getElementById('skill-modal-challenge');
-            const methodologyContainer = document.getElementById('skill-modal-methodology');
-            const deliverablesContainer = document.getElementById('skill-modal-deliverables');
-            const outcome = document.getElementById('skill-modal-outcome');
-
-            // Populate data
-            title.textContent = data.title;
-            subtitle.textContent = data.subtitle;
-            challenge.textContent = data.challenge;
-            outcome.textContent = data.outcome;
-
-            iconBg.className = `w-8 h-8 rounded-lg ${data.iconBg} text-white flex items-center justify-center font-bold text-xs`;
+            const icon = document.createElement('i');
+            document.getElementById('skill-modal-title').textContent = data.title;
+            document.getElementById('skill-modal-challenge').textContent = data.challenge;
+            document.getElementById('skill-modal-outcome').textContent = data.outcome;
+            iconBg.className = `w-8 h-8 rounded-lg ${data.iconBg} text-white flex items-center justify-center`;
             icon.setAttribute('data-lucide', data.icon);
-
-            // Populate Methodology
-            methodologyContainer.innerHTML = data.methodology.map(item => `
-                <div class="bg-surface-50 border border-surface-200 rounded-xl p-3 space-y-1">
-                    <p class="font-bold text-ink-800 text-xs flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
-                        ${item.title}
-                    </p>
-                    <p class="text-ink-400 text-xs leading-relaxed pl-3">${item.desc}</p>
-                </div>
-            `).join('');
-
-            // Populate Deliverables
-            deliverablesContainer.innerHTML = data.deliverables.map(item => `
-                <span class="skill-badge bg-white border border-surface-200 text-ink-700 font-semibold py-1 px-2.5 rounded-lg flex items-center gap-1">
-                    <i data-lucide="check" class="w-3 h-3 text-brand-500"></i> ${item}
-                </span>
-            `).join('');
-
+            iconBg.replaceChildren(icon);
+            document.getElementById('skill-modal-methodology').innerHTML = data.methodology.map(m => `
+                <div class="border-l-2 border-brand-200 pl-3">
+                    <p class="font-bold text-ink-900 text-[13px]">${m.title}</p>
+                    <p class="text-ink-500 mt-1 leading-relaxed">${m.desc}</p>
+                </div>`).join('');
+            document.getElementById('skill-modal-deliverables').innerHTML = data.deliverables.map(d =>
+                `<span class="px-2.5 py-1 rounded-md bg-slate-100 text-ink-600 text-[11px] font-semibold">${d}</span>`).join('');
             lucide.createIcons();
-
-            // Show Modal
             modal.style.display = 'flex';
-            modal.classList.remove('hidden');
-            modal.offsetHeight; // force reflow
-            modal.style.opacity = '1';
+            modal.classList.remove('modal-hidden');
+            void modal.offsetHeight;
+            modal.classList.add('modal-open');
             content.style.transform = 'scale(1) translateY(0)';
         }
 
         function closeSkillModal() {
             const modal = document.getElementById('skill-modal');
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 200);
+            modal.classList.remove('modal-open');
+            modal.classList.add('modal-hidden');
+            setTimeout(() => { modal.style.display = 'none'; }, 220);
         }
 
-        function handleSkillModalBackdropClick(e) {
-            if (e.target.id === 'skill-modal') closeSkillModal();
+        function handleSkillModalBackdropClick(e) { if (e.target.id === 'skill-modal') closeSkillModal(); }
+
+        // ---- Chuyển đổi mọi dạng link YouTube sang URL nhúng (embed) ----
+        // YouTube trả "Lỗi 153" khi trang được mở bằng file:// vì không có HTTP Referer.
+        // Khi chạy local (file:) ta dùng ảnh thumbnail + link mở YouTube; khi deploy (http/https) dùng iframe.
+        const isLocalFile = location.protocol === 'file:';
+
+        function getYouTubeId(url) {
+            if (!url) return null;
+            const regExp = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(regExp);
+            return match && match[1] ? match[1] : null;
         }
 
-        // Video Modal
-        function openVideoModal(videoSrc, title) {
+        function getYouTubeEmbedUrl(url) {
+            const id = getYouTubeId(url);
+            if (!id || isLocalFile) return null;
+            // Giữ URL embed đơn giản: enablejsapi/origin dễ gây lỗi script phía YouTube
+            return `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+        }
+
+        // ---- Danh sách video demo cho từng dự án (dán trực tiếp link YouTube vào trường src) ----
+        const projectVideosData = {
+            blockdash: [
+                { src: 'https://youtu.be/ktJbQP2bdnE?si=PzyuaeedEoLBgWS1', title: 'BLOCK DASH 2D — Full Gameplay & Feature Testing' },
+                { src: 'https://youtu.be/9W1SC9_we2g?si=wPgehO7osYf2EbPC', title: 'BLOCK DASH 2D — Map Editor Tool & Level Test' }
+            ],
+            ninjafrog: [
+                { src: 'https://youtu.be/DtzURNL3vnQ?si=_9A9uQCISIw2RVPM', title: 'NINJA FROG ADVENTURE — Adventure & Boss Battles' },
+                { src: 'https://youtu.be/ZuIi5073aBQ?si=Ft12W6s8aJryYmtc', title: 'NINJA FROG ADVENTURE — Complete UI Flow & System Showcase' }
+            ],
+            game2048: [
+                { src: 'https://youtu.be/Xf0kKo3ctSE?si=xAtpLIy1H4Z_8caK', title: 'GAME 2048 — Gameplay Demo' }
+            ]
+        };
+
+        let currentVideoList = [];
+        let currentVideoIndex = 0;
+
+        function buildCarouselSlides() {
+            const track = document.getElementById('modal-video-track');
+            const dotsContainer = document.getElementById('modal-video-dots');
+
+            track.innerHTML = currentVideoList.map((item, idx) => {
+                const ytId = getYouTubeId(item.src);
+                const ytEmbedUrl = getYouTubeEmbedUrl(item.src);
+
+                // Khi mở trực tiếp file:// : YouTube chặn embed (Lỗi 153) -> dùng thumbnail + link
+                if (ytId && isLocalFile) {
+                    return `
+                        <div class="w-full flex-shrink-0 aspect-video bg-ink-900 relative flex items-center justify-center">
+                            <img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt="${item.title}"
+                                class="w-full h-full object-cover opacity-80">
+                            <a href="https://www.youtube.com/watch?v=${ytId}" target="_blank" rel="noopener noreferrer"
+                                class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-4 bg-black/45 hover:bg-black/60 transition-colors">
+                                <span class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
+                                    <i data-lucide="youtube" class="w-6 h-6"></i>
+                                </span>
+                                <span class="text-white font-bold text-sm sm:text-base">Xem video trên YouTube ↗</span>
+                                <span class="text-white/70 text-[11px] max-w-sm">YouTube chặn nhúng khi mở file local (Lỗi 153). Deploy lên GitHub Pages để xem nhúng trực tiếp.</span>
+                            </a>
+                        </div>
+                    `;
+                }
+
+                if (ytEmbedUrl) {
+                    return `
+                        <div class="w-full flex-shrink-0 aspect-video bg-ink-900 relative flex items-center justify-center">
+                            <iframe id="carousel-yt-${idx}" class="w-full h-full border-0"
+                                src="${ytEmbedUrl}"
+                                data-src="${ytEmbedUrl}"
+                                title="${item.title}"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                            <a href="${item.src}" target="_blank" rel="noopener noreferrer"
+                                class="absolute top-3 right-3 z-20 px-3 py-1.5 rounded-lg bg-black/70 hover:bg-red-600 text-white text-[11px] font-semibold backdrop-blur-sm transition-colors">
+                                Mở trên YouTube ↗
+                            </a>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="w-full flex-shrink-0 aspect-video bg-ink-900 flex items-center justify-center">
+                        <video id="carousel-video-${idx}" controls preload="metadata" class="w-full h-full object-contain">
+                            <source src="${item.src}" type="video/mp4">
+                            Trình duyệt của bạn không hỗ trợ video HTML5.
+                        </video>
+                    </div>
+                `;
+            }).join('');
+
+            if (currentVideoList.length > 1) {
+                dotsContainer.innerHTML = currentVideoList.map((item, idx) => `
+                    <button onclick="goToModalVideo(${idx})" id="modal-dot-${idx}"
+                        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border">
+                        Video ${idx + 1}: ${item.title.split('—')[1]?.trim() || item.title}
+                    </button>
+                `).join('');
+            } else {
+                dotsContainer.innerHTML = '';
+            }
+
+            // Render icon cho nội dung vừa tạo động (fallback thumbnail trên file://)
+            if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        }
+
+        function pauseSlideMedia(idx) {
+            const vid = document.getElementById(`carousel-video-${idx}`);
+            if (vid) vid.pause();
+
+            // Reload iframe ẩn để chắc chắn video YouTube dừng (không cần enablejsapi)
+            const yt = document.getElementById(`carousel-yt-${idx}`);
+            if (yt) yt.src = yt.getAttribute('data-src');
+        }
+
+        function updateCarouselSlide() {
+            const item = currentVideoList[currentVideoIndex];
+            if (!item) return;
+
+            const track = document.getElementById('modal-video-track');
+            const titleEl = document.getElementById('modal-video-title');
+            const counterEl = document.getElementById('modal-video-counter');
+            const headerNav = document.getElementById('modal-video-nav');
+            const prevOverlay = document.getElementById('modal-video-prev-overlay');
+            const nextOverlay = document.getElementById('modal-video-next-overlay');
+            const dotsContainer = document.getElementById('modal-video-dots');
+
+            // Trượt băng chuyền sang ngang
+            track.style.transform = `translateX(-${currentVideoIndex * 100}%)`;
+            titleEl.textContent = item.title;
+
+            // Tạm dừng các video khác và kích hoạt video đang chọn
+            currentVideoList.forEach((_, idx) => {
+                if (idx === currentVideoIndex) {
+                    const vid = document.getElementById(`carousel-video-${idx}`);
+                    if (vid) vid.play().catch(() => { });
+                } else {
+                    pauseSlideMedia(idx);
+                }
+
+                const dot = document.getElementById(`modal-dot-${idx}`);
+                if (dot) {
+                    if (idx === currentVideoIndex) {
+                        dot.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all border border-brand-600 bg-brand-600 text-white shadow-sm';
+                    } else {
+                        dot.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border border-slate-200 bg-white text-ink-600 hover:border-brand-400';
+                    }
+                }
+            });
+
+            const hasMultiple = currentVideoList.length > 1;
+            if (hasMultiple) {
+                counterEl.textContent = `${currentVideoIndex + 1} / ${currentVideoList.length}`;
+                counterEl.classList.remove('hidden');
+                headerNav.classList.remove('hidden');
+                headerNav.classList.add('flex');
+                prevOverlay.classList.remove('hidden');
+                prevOverlay.classList.add('flex');
+                nextOverlay.classList.remove('hidden');
+                nextOverlay.classList.add('flex');
+                dotsContainer.classList.remove('hidden');
+                dotsContainer.classList.add('flex');
+            } else {
+                counterEl.classList.add('hidden');
+                headerNav.classList.add('hidden');
+                headerNav.classList.remove('flex');
+                prevOverlay.classList.add('hidden');
+                prevOverlay.classList.remove('flex');
+                nextOverlay.classList.add('hidden');
+                nextOverlay.classList.remove('flex');
+                dotsContainer.classList.add('hidden');
+                dotsContainer.classList.remove('flex');
+            }
+        }
+
+        function goToModalVideo(index) {
+            if (index < 0 || index >= currentVideoList.length) return;
+            currentVideoIndex = index;
+            updateCarouselSlide();
+        }
+
+        function openProjectVideoModal(projectKey, startIndex = 0) {
+            const list = projectVideosData[projectKey];
+            if (!list || !list.length) return;
+
+            currentVideoList = list;
+            currentVideoIndex = startIndex;
+
+            buildCarouselSlides();
+
             const modal = document.getElementById('video-modal');
             const content = document.getElementById('video-modal-content');
-            const player = document.getElementById('modal-video-player');
-            const source = document.getElementById('modal-video-source');
-            const titleEl = document.getElementById('modal-video-title');
-
-            if (title) titleEl.textContent = title;
-            source.src = videoSrc;
-            player.load();
-
             modal.style.display = 'flex';
-            modal.classList.remove('hidden');
-            // force reflow
-            modal.offsetHeight;
-            modal.style.opacity = '1';
+            modal.classList.remove('modal-hidden');
+            void modal.offsetHeight;
+            modal.classList.add('modal-open');
             content.style.transform = 'scale(1) translateY(0)';
 
-            player.play().catch(() => { });
+            updateCarouselSlide();
+        }
+
+        function nextModalVideo() {
+            if (currentVideoList.length <= 1) return;
+            currentVideoIndex = (currentVideoIndex + 1) % currentVideoList.length;
+            updateCarouselSlide();
+        }
+
+        function prevModalVideo() {
+            if (currentVideoList.length <= 1) return;
+            currentVideoIndex = (currentVideoIndex - 1 + currentVideoList.length) % currentVideoList.length;
+            updateCarouselSlide();
+        }
+
+        function openVideoModal(src, title) {
+            currentVideoList = [{ src, title: title || 'Gameplay Demo' }];
+            currentVideoIndex = 0;
+
+            buildCarouselSlides();
+
+            const modal = document.getElementById('video-modal');
+            const content = document.getElementById('video-modal-content');
+            modal.style.display = 'flex';
+            modal.classList.remove('modal-hidden');
+            void modal.offsetHeight;
+            modal.classList.add('modal-open');
+            content.style.transform = 'scale(1) translateY(0)';
+
+            updateCarouselSlide();
         }
 
         function closeVideoModal() {
             const modal = document.getElementById('video-modal');
-            const player = document.getElementById('modal-video-player');
-            player.pause();
-            modal.style.opacity = '0';
+            currentVideoList.forEach((_, idx) => {
+                pauseSlideMedia(idx);
+            });
+            modal.classList.remove('modal-open');
+            modal.classList.add('modal-hidden');
             setTimeout(() => {
                 modal.style.display = 'none';
-                document.getElementById('modal-video-source').src = '';
-            }, 250);
+                document.getElementById('modal-video-track').innerHTML = '';
+            }, 220);
         }
 
-        function handleModalBackdropClick(e) {
-            if (e.target.id === 'video-modal') closeVideoModal();
-        }
+        function handleModalBackdropClick(e) { if (e.target.id === 'video-modal') closeVideoModal(); }
 
-        document.addEventListener('keydown', e => { 
-            if (e.key === 'Escape') {
-                closeVideoModal();
-                closeSkillModal();
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeVideoModal(); closeSkillModal(); }
+            const videoModal = document.getElementById('video-modal');
+            if (videoModal && videoModal.style.display === 'flex') {
+                if (e.key === 'ArrowRight') nextModalVideo();
+                if (e.key === 'ArrowLeft') prevModalVideo();
             }
         });
     </script>
